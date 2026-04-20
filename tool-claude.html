@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude — OMNIMIND</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ===== TOOL HEADER ===== */
+  .tool-hero { padding: 60px 0 80px; border-bottom: 1px solid var(--line); }
+  .tool-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 1000px) { .tool-hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .tool-title-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+    color: var(--ink-mute);
+  }
+  .tool-big-name {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 70, 'opsz' 144, 'wght' 400;
+    font-size: clamp(64px, 10vw, 140px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    margin-bottom: 16px;
+  }
+  .tool-maker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-mute);
+    letter-spacing: 0.08em;
+    margin-bottom: 32px;
+  }
+  .tool-tagline {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 60, 'opsz' 36, 'wght' 400;
+    font-size: 24px;
+    line-height: 1.35;
+    color: var(--ink);
+    max-width: 560px;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .tool-tagline em { color: var(--accent); font-style: italic; }
+  .tool-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* ===== RIGHT CARD ===== */
+  .tool-specs-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    padding: 28px;
+    border-radius: 8px;
+    position: sticky;
+    top: 92px;
+  }
+  @media (max-width: 1000px) { .tool-specs-card { position: static; } }
+  .specs-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .spec-row {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-soft);
+    gap: 16px;
+  }
+  .spec-row:last-child { border-bottom: none; }
+  .spec-k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .spec-v {
+    font-size: 14px;
+    color: var(--ink);
+    text-align: right;
+  }
+  .spec-v .sub { color: var(--ink-mute); font-size: 12px; display: block; }
+
+  /* ===== VERDICT SECTION ===== */
+  .verdict-sec {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .v-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .v-text {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 80, 'opsz' 72, 'wght' 300;
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    max-width: 900px;
+  }
+  .v-text em { color: var(--accent); font-style: italic; }
+
+  /* ===== STRENGTHS & WEAKNESSES ===== */
+  .sw-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 700px) { .sw-grid { grid-template-columns: 1fr; } }
+  .sw-col {
+    background: var(--bg);
+    padding: 40px 32px;
+  }
+  .sw-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sw-title.strengths { color: var(--tier-open); }
+  .sw-title.weaknesses { color: var(--accent); }
+  .sw-list { list-style: none; }
+  .sw-list li {
+    padding: 14px 0 14px 24px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+    position: relative;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .sw-list li:last-child { border-bottom: none; }
+  .sw-list li::before {
+    content: ''; position: absolute;
+    left: 0; top: 22px;
+    width: 12px; height: 1px;
+    background: var(--ink-faint);
+  }
+
+  /* ===== PRICING ===== */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 800px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .price-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    padding: 32px 28px;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+  }
+  .price-card:hover { border-color: var(--ink-mute); }
+  .price-card.featured { border-color: var(--accent); }
+  .price-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 16px;
+  }
+  .price-card.featured .price-tier { color: var(--accent); }
+  .price-amt {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'opsz' 72, 'wght' 500;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+  }
+  .price-per { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-faint); letter-spacing: 0.08em; }
+  .price-feats {
+    list-style: none;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .price-feats li {
+    font-size: 13px;
+    color: var(--ink-mute);
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
+  }
+  .price-feats li::before {
+    content: '✓'; position: absolute;
+    left: 0; color: var(--tier-open);
+    font-size: 11px;
+  }
+
+  /* ===== ALTERNATIVES ===== */
+  .alt-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  @media (max-width: 800px) { .alt-grid { grid-template-columns: 1fr; } }
+  .alt-card {
+    background: var(--bg);
+    padding: 32px 28px;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .alt-card:hover { background: var(--bg-elev); }
+  .alt-name {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'opsz' 72, 'wght' 500;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+  .alt-reason { color: var(--ink-mute); font-size: 14px; line-height: 1.5; margin-bottom: 20px; }
+  .alt-meta {
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ===== BODY PROSE ===== */
+  .prose {
+    max-width: 720px;
+  }
+  .prose h3 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 60, 'opsz' 72, 'wght' 500;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    margin: 48px 0 16px;
+    line-height: 1.15;
+  }
+  .prose h3:first-child { margin-top: 0; }
+  .prose p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .prose p.lede {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 70, 'opsz' 36, 'wght' 400;
+    font-size: 22px;
+    line-height: 1.45;
+    color: var(--ink-mute);
+    letter-spacing: -0.01em;
+  }
+
+  /* section spacing */
+  .section-tight { padding: 80px 0; border-bottom: 1px solid var(--line); }
+  .section-head-lite {
+    margin-bottom: 40px;
+  }
+  .section-head-lite h2 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 70, 'opsz' 72, 'wght' 400;
+    font-size: clamp(32px, 4vw, 44px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 12px;
+  }
+  .section-head-lite h2 em { color: var(--accent); font-style: italic; }
+  .section-head-lite p { color: var(--ink-mute); max-width: 560px; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-dot"></span>
+      OMNIMIND
+    </a>
+    <div class="nav-links">
+      <a href="index.html#categories">Categories</a>
+      <a href="category-chatbots.html">Directory</a>
+      <a href="stacks.html">Stacks</a>
+      <a href="compare.html">Compare</a>
+      <a href="#" class="nav-cta">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- TOOL HERO -->
+<section class="tool-hero">
+  <div class="container">
+    <div class="crumb">
+      <a href="index.html">OMNIMIND</a>
+      <span class="sep">/</span>
+      <a href="category-chatbots.html">CHATBOTS &amp; LLMS</a>
+      <span class="sep">/</span>
+      <span>CLAUDE</span>
+    </div>
+
+    <div class="tool-hero-grid">
+      <div>
+        <div class="tool-title-tier">
+          <span class="tier-dot dot-frontier"></span>FRONTIER
+          <span class="sep" style="color: var(--ink-faint)">·</span>
+          RANKED №01 IN CATEGORY
+        </div>
+        <h1 class="tool-big-name serif">Claude</h1>
+        <div class="tool-maker">BY ANTHROPIC · SAN FRANCISCO</div>
+        <p class="tool-tagline">The thinking person's chatbot. When the answer <em>actually matters</em>, this is the one serious knowledge workers reach for.</p>
+        <div class="tool-ctas">
+          <a href="#" class="btn">VISIT CLAUDE.AI →</a>
+          <a href="compare.html" class="btn btn-ghost">COMPARE</a>
+        </div>
+      </div>
+
+      <aside class="tool-specs-card">
+        <div class="specs-title">AT A GLANCE</div>
+        <div class="spec-row">
+          <span class="spec-k">TIER</span>
+          <span class="spec-v"><span class="tier-dot dot-frontier"></span> Frontier</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Maker</span>
+          <span class="spec-v">Anthropic</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Latest Model</span>
+          <span class="spec-v">Opus 4.7<span class="sub">Apr 2026</span></span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Context</span>
+          <span class="spec-v">200K tokens</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Best For</span>
+          <span class="spec-v">Reasoning, code, long docs</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Free Tier</span>
+          <span class="spec-v" style="color: var(--tier-open);">Yes</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">Starts</span>
+          <span class="spec-v">$20/mo<span class="sub">Pro</span></span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">API</span>
+          <span class="spec-v">Yes</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-k">SWE-bench</span>
+          <span class="spec-v" style="color: var(--accent); font-family: 'JetBrains Mono', monospace;">80.9%</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- VERDICT -->
+<section class="verdict-sec">
+  <div class="container">
+    <div class="v-label">■ THE VERDICT</div>
+    <p class="v-text">If you're paying for one AI, pay for this one. Claude <em>hallucinates less</em>, reasons more carefully, and turns long documents into something you can actually use. The coding is best-in-class; the writing is the only AI prose that doesn't read as AI prose.</p>
+  </div>
+</section>
+
+<!-- DEEP DIVE -->
+<section class="section-tight">
+  <div class="container-narrow">
+    <div class="section-head-lite">
+      <h2>Why <em>this one.</em></h2>
+      <p>The case for Claude, and when to reach for something else instead.</p>
+    </div>
+
+    <div class="prose">
+      <p class="lede">Claude is what happens when a frontier lab optimises for accuracy over spectacle. It won't wow you with an image generator or a voice demo. What it does, it does with a precision and a restraint that's rare in 2026's AI landscape.</p>
+
+      <h3>The coding story</h3>
+      <p>Opus 4.7 became the first model to break 80% on SWE-bench Verified — a benchmark of real-world GitHub issues resolved autonomously. That's not a marketing number. It's the difference between a coding assistant that writes plausible-looking code and one that actually ships working pull requests. Teams using Claude Code (the terminal agent) and Cursor (the IDE) have reported 30–50% reductions in time-to-ship on routine engineering tasks.</p>
+      <p>Artifacts — Claude's in-chat canvas for code, documents, and interactive components — turn a chat turn into something you can open, iterate on, and deploy. No other chatbot makes the chat-to-artefact loop feel this natural.</p>
+
+      <h3>The writing story</h3>
+      <p>Claude's prose has a texture that the other frontier models haven't quite matched. It knows when to stop a sentence. It doesn't default to bullet points. It handles nuance in brief analytical writing better than any model on the market. For long-form content — essays, reports, internal memos — it's the one knowledge workers keep coming back to.</p>
+
+      <h3>Where it falls short</h3>
+      <p>Claude is not the model to use if you want real-time web search, native image generation, or a voice mode to rival ChatGPT's. Anthropic has consistently prioritised depth over breadth, and the result is a tool that's excellent at a focused set of things and simply unavailable for others. If you need one AI to also generate your images and read you the news in a realistic voice, ChatGPT is still the broader pick.</p>
+      <p>The free tier is more restrictive than ChatGPT's. Heavy users will hit message limits during long sessions and want to upgrade quickly.</p>
+
+      <h3>Who should pay for Pro</h3>
+      <p>Anyone who codes. Anyone who writes for a living. Anyone who regularly analyses documents longer than 20 pages. At $20/month, Pro is a trivial expense relative to the time it saves, and the Max tier ($200/mo) with 20× the quota is the honest answer for full-time heavy users.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STRENGTHS/WEAKNESSES -->
+<section class="section-tight">
+  <div class="container">
+    <div class="section-head-lite">
+      <h2>Strengths &amp; <em>trade-offs.</em></h2>
+      <p>The honest breakdown, no marketing gloss.</p>
+    </div>
+
+    <div class="sw-grid">
+      <div class="sw-col">
+        <div class="sw-title strengths">+ STRENGTHS</div>
+        <ul class="sw-list">
+          <li>Best-in-class coding: 80.9% on SWE-bench Verified</li>
+          <li>Lowest hallucination rate among frontier models</li>
+          <li>Nuanced, non-robotic long-form writing</li>
+          <li>Artifacts make code and documents genuinely usable</li>
+          <li>200K context handles entire codebases and reports</li>
+          <li>Strong commitment to AI safety (Constitutional AI)</li>
+          <li>Claude Code brings agentic dev to the terminal</li>
+          <li>Does not train on your chats by default</li>
+        </ul>
+      </div>
+      <div class="sw-col">
+        <div class="sw-title weaknesses">− TRADE-OFFS</div>
+        <ul class="sw-list">
+          <li>No native image generation (requires third-party)</li>
+          <li>Web search is weaker than Perplexity or ChatGPT</li>
+          <li>Free tier caps are restrictive for heavy use</li>
+          <li>Fewer integrations than ChatGPT's Apps ecosystem</li>
+          <li>Voice mode is absent</li>
+          <li>Smaller context than Gemini's 1M tokens</li>
+          <li>Less useful for real-time news and research</li>
+          <li>Plus plan limits hit faster than competitors at $20/mo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section-tight">
+  <div class="container">
+    <div class="section-head-lite">
+      <h2>Pricing.</h2>
+      <p>Three tiers. No usage-based billing surprises. Pro is the answer for most paying users.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-tier">FREE</div>
+        <div class="price-amt serif">$0</div>
+        <div class="price-per">PER MONTH</div>
+        <ul class="price-feats">
+          <li>Latest Sonnet model</li>
+          <li>Daily message limit</li>
+          <li>Basic Artifacts</li>
+          <li>Web + mobile apps</li>
+        </ul>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-tier">PRO · RECOMMENDED</div>
+        <div class="price-amt serif">$20</div>
+        <div class="price-per">PER MONTH</div>
+        <ul class="price-feats">
+          <li>Access to Opus 4.7</li>
+          <li>5× the usage of free</li>
+          <li>Extended thinking mode</li>
+          <li>Projects with custom knowledge</li>
+          <li>Priority access during high demand</li>
+        </ul>
+      </div>
+
+      <div class="price-card">
+        <div class="price-tier">MAX</div>
+        <div class="price-amt serif">$200</div>
+        <div class="price-per">PER MONTH</div>
+        <ul class="price-feats">
+          <li>20× the usage of Pro</li>
+          <li>Higher output tokens</li>
+          <li>Early access to new features</li>
+          <li>Priority support</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ALTERNATIVES -->
+<section class="section-tight">
+  <div class="container">
+    <div class="section-head-lite">
+      <h2>If not Claude, then <em>what.</em></h2>
+      <p>The three honest alternatives, and why you'd pick each.</p>
+    </div>
+
+    <div class="alt-grid">
+      <a href="tool-claude.html" class="alt-card">
+        <div class="tier-tag"><span class="tier-dot dot-frontier"></span>FRONTIER</div>
+        <div class="alt-name serif">ChatGPT</div>
+        <p class="alt-reason">Pick ChatGPT if you want the biggest ecosystem — custom GPTs, Apps, voice, image, and search in one product. It's the broader choice; Claude is the deeper one.</p>
+        <div class="alt-meta">
+          <span>OPENAI</span>
+          <span>$20/mo →</span>
+        </div>
+      </a>
+      <a href="tool-claude.html" class="alt-card">
+        <div class="tier-tag"><span class="tier-dot dot-frontier"></span>FRONTIER</div>
+        <div class="alt-name serif">Gemini</div>
+        <p class="alt-reason">Pick Gemini if you need 1M tokens of context or if your work lives inside Google Workspace. It sees Gmail, Docs, and Drive natively.</p>
+        <div class="alt-meta">
+          <span>GOOGLE</span>
+          <span>$19.99/mo →</span>
+        </div>
+      </a>
+      <a href="tool-claude.html" class="alt-card">
+        <div class="tier-tag"><span class="tier-dot dot-open"></span>OPEN-SOURCE</div>
+        <div class="alt-name serif">Ollama</div>
+        <p class="alt-reason">Pick Ollama if your data simply cannot leave your machine. Runs any open-weights LLM locally. The privacy-maximalist's answer.</p>
+        <div class="alt-meta">
+          <span>OLLAMA</span>
+          <span>Free →</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <h2 class="foot-hero serif">Built for people who want <em>the signal</em>, not the noise.</h2>
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-brand serif">OMNIMIND</div>
+        <div class="foot-tagline">The nexus for all of AI. Curated monthly by humans who actually use the tools. No sponsored rankings, ever.</div>
+      </div>
+      <div class="foot-col">
+        <h5>Discover</h5>
+        <a href="index.html#categories">Categories</a>
+        <a href="category-chatbots.html">Directory</a>
+        <a href="stacks.html">Stacks</a>
+        <a href="compare.html">Compare</a>
+      </div>
+      <div class="foot-col">
+        <h5>About</h5>
+        <a href="#">Editorial philosophy</a>
+        <a href="#">How we curate</a>
+        <a href="#">Submit a tool</a>
+        <a href="#">Newsletter</a>
+      </div>
+      <div class="foot-col">
+        <h5>Elsewhere</h5>
+        <a href="#">X / Twitter</a>
+        <a href="#">RSS</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© OMNIMIND 2026 — built in Singapore</span>
+      <span>v0.1 · PROTOTYPE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = 1;
+        e.target.style.transform = 'none';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.v-text, .prose > *, .sw-col, .price-card, .alt-card').forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = 'opacity 0.7s ease-out, transform 0.7s ease-out, background 0.2s, border-color 0.2s';
+    io.observe(el);
+  });
+</script>
+
+</body>
+</html>

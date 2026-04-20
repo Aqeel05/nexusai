@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chatbots & LLMs — OMNIMIND</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  /* ===== CATEGORY TABS ===== */
+  .cat-tabs {
+    display: flex;
+    gap: 2px;
+    padding: 24px 0 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .cat-tabs::-webkit-scrollbar { display: none; }
+  .cat-tab {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding: 12px 18px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .cat-tab:hover { border-color: var(--ink-mute); color: var(--ink); }
+  .cat-tab.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  /* ===== FILTERS BAR ===== */
+  .filters-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .filter-group { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .filter-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink-faint);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    margin-right: 4px;
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--ink-mute);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chip:hover { border-color: var(--ink-mute); color: var(--ink); }
+  .chip.active {
+    border-color: var(--accent);
+    background: rgba(255,94,26,0.08);
+    color: var(--accent);
+  }
+  .sort-sel {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: var(--bg-elev);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  /* ===== TOOL CARDS ===== */
+  .cat-listing { padding: 48px 0; }
+  .tool-list {
+    display: flex; flex-direction: column;
+  }
+  .tool-item {
+    display: grid;
+    grid-template-columns: 48px 1fr 2fr 140px 120px 40px;
+    gap: 28px;
+    align-items: center;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    transition: padding 0.2s;
+    cursor: pointer;
+  }
+  .tool-item:hover { padding-left: 8px; padding-right: 8px; }
+  .tool-rank {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 80, 'opsz' 72, 'wght' 300;
+    font-size: 40px;
+    color: var(--ink-faint);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .tool-item:hover .tool-rank { color: var(--accent); }
+  .tool-name-block { min-width: 0; }
+  .tool-name {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'opsz' 72, 'wght' 500;
+    font-size: 26px;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .tool-maker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.08em;
+  }
+  .tool-verdict {
+    color: var(--ink-mute);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .tool-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .tool-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+  }
+  .tool-price .free { color: var(--tier-open); }
+  .tool-arrow {
+    color: var(--ink-faint);
+    text-align: right;
+    transition: all 0.2s;
+    font-size: 18px;
+  }
+  .tool-item:hover .tool-arrow { color: var(--accent); transform: translateX(4px); }
+
+  @media (max-width: 900px) {
+    .tool-item { grid-template-columns: 40px 1fr 110px 24px; row-gap: 8px; }
+    .tool-verdict { grid-column: 2 / span 3; font-size: 13px; }
+    .tool-price { display: none; }
+    .tool-rank { font-size: 28px; }
+    .tool-name { font-size: 22px; }
+  }
+
+  /* ===== SIDEBAR INFO ===== */
+  .cat-intro {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 60px;
+    padding: 48px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 900px) { .cat-intro { grid-template-columns: 1fr; gap: 32px; } }
+  .intro-text {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'opsz' 36, 'wght' 400;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .intro-stats {
+    display: flex; flex-direction: column; gap: 24px;
+    border-left: 1px solid var(--line); padding-left: 32px;
+  }
+  @media (max-width: 900px) { .intro-stats { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 24px; flex-direction: row; flex-wrap: wrap; gap: 40px; } }
+  .intro-stat-num {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 50, 'opsz' 72, 'wght' 400;
+    font-size: 36px;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .intro-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+
+  /* ===== CTA STRIP ===== */
+  .cta-strip {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  .cta-title {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 80, 'opsz' 144, 'wght' 400;
+    font-size: clamp(32px, 5vw, 56px);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .cta-title em { color: var(--accent); font-style: italic; }
+  .cta-sub { color: var(--ink-mute); margin-bottom: 32px; }
+  .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <span class="logo-dot"></span>
+      OMNIMIND
+    </a>
+    <div class="nav-links">
+      <a href="index.html#categories" class="active">Categories</a>
+      <a href="category-chatbots.html">Directory</a>
+      <a href="stacks.html">Stacks</a>
+      <a href="compare.html">Compare</a>
+      <a href="#" class="nav-cta">Subscribe</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEAD -->
+<section class="page-head">
+  <div class="container">
+    <div class="crumb">
+      <a href="index.html">OMNIMIND</a>
+      <span class="sep">/</span>
+      <a href="index.html#categories">CATEGORIES</a>
+      <span class="sep">/</span>
+      <span>CHATBOTS &amp; LLMS</span>
+    </div>
+    <h1 class="page-title">Chatbots<br>&amp; <em>LLMs.</em></h1>
+    <p class="page-sub">The foundation layer of the AI stack. General-purpose reasoning engines that answer, write, code, and increasingly, act. The ten that matter.</p>
+
+    <div class="cat-tabs">
+      <span class="cat-tab active">🧠 Chatbots</span>
+      <span class="cat-tab">🤖 Agents</span>
+      <span class="cat-tab">🎨 Image</span>
+      <span class="cat-tab">🎬 Video</span>
+      <span class="cat-tab">🎵 Music</span>
+      <span class="cat-tab">🗣️ Voice</span>
+      <span class="cat-tab">💻 Coding</span>
+      <span class="cat-tab">🔎 Search</span>
+      <span class="cat-tab">📝 Writing</span>
+      <span class="cat-tab">✏️ Design</span>
+      <span class="cat-tab">💼 Business</span>
+      <span class="cat-tab">🧪 Infra</span>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<div class="container">
+  <div class="cat-intro">
+    <p class="intro-text">Base conversation quality has reached parity across the frontier models. The real differences in 2026 are <em>specialisation</em> — Claude for reasoning and code, ChatGPT for breadth and ecosystem, Gemini for context length and multimodal. Most serious users keep two open in tabs.</p>
+    <div class="intro-stats">
+      <div>
+        <div class="intro-stat-num">10</div>
+        <div class="intro-stat-label">Tools reviewed</div>
+      </div>
+      <div>
+        <div class="intro-stat-num">3</div>
+        <div class="intro-stat-label">Frontier-tier</div>
+      </div>
+      <div>
+        <div class="intro-stat-num">$0–20</div>
+        <div class="intro-stat-label">Monthly range</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="container">
+  <div class="filters-bar">
+    <div class="filter-group">
+      <span class="filter-label">TIER</span>
+      <span class="chip active">All</span>
+      <span class="chip"><span class="tier-dot dot-frontier"></span>Frontier</span>
+      <span class="chip"><span class="tier-dot dot-leading"></span>Leading</span>
+      <span class="chip"><span class="tier-dot dot-specialist"></span>Specialist</span>
+      <span class="chip"><span class="tier-dot dot-open"></span>Open-source</span>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">PRICE</span>
+      <span class="chip">Free</span>
+      <span class="chip">Under $20</span>
+      <span class="chip">$20+</span>
+    </div>
+    <select class="sort-sel">
+      <option>Sort: Editor's ranking</option>
+      <option>Sort: A–Z</option>
+      <option>Sort: Price ascending</option>
+      <option>Sort: Newest</option>
+    </select>
+  </div>
+</div>
+
+<!-- TOOL LIST -->
+<section class="cat-listing">
+  <div class="container">
+    <div class="tool-list">
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">01</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Claude</div>
+          <div class="tool-maker">ANTHROPIC</div>
+        </div>
+        <div class="tool-verdict">The thinking person's chatbot. Opus 4.7 leads the field on reasoning, coding, and long-document analysis. Hallucinates less than any competitor. Artifacts turn chat into working output.</div>
+        <div class="tool-tier"><span class="tier-dot dot-frontier"></span>Frontier</div>
+        <div class="tool-price">Free · <span>$20/mo</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">02</div>
+        <div class="tool-name-block">
+          <div class="tool-name">ChatGPT</div>
+          <div class="tool-maker">OPENAI</div>
+        </div>
+        <div class="tool-verdict">Biggest ecosystem, best all-rounder, default answer for most people. Custom GPTs, Apps, voice, image, and search in one product. The one your non-technical friends already use.</div>
+        <div class="tool-tier"><span class="tier-dot dot-frontier"></span>Frontier</div>
+        <div class="tool-price">Free · <span>$20/mo</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">03</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Gemini</div>
+          <div class="tool-maker">GOOGLE</div>
+        </div>
+        <div class="tool-verdict">1M-token context and deep Workspace integration. If your work lives in Gmail, Docs, and Drive, this is the one that actually sees it all. Best for truly massive inputs.</div>
+        <div class="tool-tier"><span class="tier-dot dot-frontier"></span>Frontier</div>
+        <div class="tool-price">Free · <span>$19.99/mo</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">04</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Grok</div>
+          <div class="tool-maker">XAI</div>
+        </div>
+        <div class="tool-verdict">Real-time X data and a saltier tone. The one to ask when you want news-adjacent context the other three hedge on. Integrated into X Premium; lives where your feed lives.</div>
+        <div class="tool-tier"><span class="tier-dot dot-leading"></span>Leading</div>
+        <div class="tool-price"><span>$16/mo</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">05</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Meta AI</div>
+          <div class="tool-maker">META</div>
+        </div>
+        <div class="tool-verdict">Llama 4 everywhere Meta lives — WhatsApp, Instagram, Messenger, Ray-Ban glasses. Free, competent, conveniently there. Not the best, but the most available.</div>
+        <div class="tool-tier"><span class="tier-dot dot-leading"></span>Leading</div>
+        <div class="tool-price"><span class="free">Free</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">06</div>
+        <div class="tool-name-block">
+          <div class="tool-name">DeepSeek</div>
+          <div class="tool-maker">DEEPSEEK</div>
+        </div>
+        <div class="tool-verdict">Open weights, shockingly capable, a fraction of frontier prices. Strong on reasoning and code. The "good enough for 80% of tasks at 5% of the price" model.</div>
+        <div class="tool-tier"><span class="tier-dot dot-leading"></span>Leading</div>
+        <div class="tool-price"><span class="free">Free</span> · API</div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">07</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Mistral Le Chat</div>
+          <div class="tool-maker">MISTRAL AI</div>
+        </div>
+        <div class="tool-verdict">European, privacy-leaning, fast. The continental alternative for anyone uneasy about US-hosted AI and regulated data. Strong multilingual handling.</div>
+        <div class="tool-tier"><span class="tier-dot dot-specialist"></span>Specialist</div>
+        <div class="tool-price">Free · <span>€15/mo</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">08</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Qwen</div>
+          <div class="tool-maker">ALIBABA</div>
+        </div>
+        <div class="tool-verdict">Strong multilingual, open-weights family. Excellent Chinese-language performance. Under-rated in the west, heavily used across Asia. Free via Qwen Chat or self-hosted.</div>
+        <div class="tool-tier"><span class="tier-dot dot-specialist"></span>Specialist</div>
+        <div class="tool-price"><span class="free">Free</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">09</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Kimi K2</div>
+          <div class="tool-maker">MOONSHOT AI</div>
+        </div>
+        <div class="tool-verdict">Long-context champion. Hand it an entire book, a full codebase, or a year of Slack logs — it holds the thread. The go-to when the whole input matters.</div>
+        <div class="tool-tier"><span class="tier-dot dot-specialist"></span>Specialist</div>
+        <div class="tool-price"><span class="free">Free</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+      <a href="tool-claude.html" class="tool-item">
+        <div class="tool-rank">10</div>
+        <div class="tool-name-block">
+          <div class="tool-name">Ollama</div>
+          <div class="tool-maker">OLLAMA</div>
+        </div>
+        <div class="tool-verdict">Run any open LLM on your own hardware. No API keys, no vendor dependencies, no data leaving your machine. The privacy-maximalist's choice; required reading for any serious self-hoster.</div>
+        <div class="tool-tier"><span class="tier-dot dot-open"></span>Open-source</div>
+        <div class="tool-price"><span class="free">Free</span></div>
+        <div class="tool-arrow">→</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<section class="cta-strip">
+  <div class="container-narrow">
+    <h3 class="cta-title">Can't decide? <em>Compare them.</em></h3>
+    <p class="cta-sub">Put any two tools side-by-side on benchmarks, pricing, features, and verdicts.</p>
+    <div class="cta-actions">
+      <a href="compare.html" class="btn">OPEN COMPARE →</a>
+      <a href="stacks.html" class="btn btn-ghost">BROWSE STACKS</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <h2 class="foot-hero serif">Built for people who want <em>the signal</em>, not the noise.</h2>
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-brand serif">OMNIMIND</div>
+        <div class="foot-tagline">The nexus for all of AI. Curated monthly by humans who actually use the tools. No sponsored rankings, ever.</div>
+      </div>
+      <div class="foot-col">
+        <h5>Discover</h5>
+        <a href="index.html#categories">Categories</a>
+        <a href="category-chatbots.html">Directory</a>
+        <a href="stacks.html">Stacks</a>
+        <a href="compare.html">Compare</a>
+      </div>
+      <div class="foot-col">
+        <h5>About</h5>
+        <a href="#">Editorial philosophy</a>
+        <a href="#">How we curate</a>
+        <a href="#">Submit a tool</a>
+        <a href="#">Newsletter</a>
+      </div>
+      <div class="foot-col">
+        <h5>Elsewhere</h5>
+        <a href="#">X / Twitter</a>
+        <a href="#">RSS</a>
+        <a href="#">Newsletter</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© OMNIMIND 2026 — built in Singapore</span>
+      <span>v0.1 · PROTOTYPE</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = 1;
+        e.target.style.transform = 'none';
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.tool-item, .cat-intro, .filters-bar').forEach(el => {
+    el.style.opacity = 0;
+    el.style.transform = 'translateY(12px)';
+    el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out, padding 0.2s, background 0.2s';
+    io.observe(el);
+  });
+
+  // chip toggle demo
+  document.querySelectorAll('.filter-group').forEach(group => {
+    group.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        group.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      });
+    });
+  });
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
