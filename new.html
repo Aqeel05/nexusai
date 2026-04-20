@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New &amp; Updated — OMNIMIND</title>
+  <meta name="description" content="Recently added tools, tier changes, and what's new in the AI landscape. Updated weekly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .new-hero { padding: 80px 40px 64px; max-width: 900px; margin: 0 auto; border-bottom: 1px solid var(--line); }
+    .new-hero .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
+    .new-hero h1 { font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'SOFT' 50, 'opsz' 72; font-size: clamp(32px, 5vw, 56px); font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 20px; }
+    .new-hero p { font-size: 17px; line-height: 1.7; color: var(--ink-mute); max-width: 560px; }
+    .new-body { max-width: 900px; margin: 0 auto; padding: 0 40px 80px; }
+    .month-group { padding: 48px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(16px); transition: opacity 0.45s ease, transform 0.45s ease; }
+    .month-group.visible { opacity: 1; transform: translateY(0); }
+    .month-group:last-child { border-bottom: none; }
+    .month-label { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+    .month-label h2 { font-family: 'Fraunces', Georgia, serif; font-size: 24px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
+    .month-label .count { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); background: var(--bg-card); border: 1px solid var(--line); padding: 3px 8px; border-radius: 3px; }
+    .update-list { display: grid; gap: 2px; }
+    .update-item { display: grid; grid-template-columns: 80px 1fr auto; gap: 20px; align-items: start; padding: 16px 0; border-bottom: 1px solid var(--line-soft); }
+    .update-item:last-child { border-bottom: none; }
+    .update-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 7px; border-radius: 3px; align-self: center; }
+    .badge-new { background: rgba(152,176,111,0.18); color: var(--tier-open); }
+    .badge-up { background: rgba(255,94,26,0.12); color: var(--accent); }
+    .badge-updated { background: rgba(233,210,106,0.1); color: var(--tier-leading); }
+    .update-info .name { font-size: 15px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
+    .update-info .desc { font-size: 13px; line-height: 1.5; color: var(--ink-mute); }
+    .update-meta { text-align: right; }
+    .update-meta .tier-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: var(--ink-faint); }
+    .update-meta .cat-link { display: block; font-size: 11px; color: var(--ink-faint); margin-top: 4px; }
+    .update-meta .cat-link:hover { color: var(--accent); }
+    .tier-change { display: inline-flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px; }
+    .tier-change .from { color: var(--ink-faint); } .tier-change .arrow { color: var(--accent); } .tier-change .to { color: var(--ink); }
+    .summary-bar { background: var(--bg-card); border: 1px solid var(--line); border-radius: 8px; padding: 20px 24px; display: flex; gap: 40px; margin: 40px 0 8px; flex-wrap: wrap; }
+    .summary-stat .val { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 500; color: var(--ink); }
+    .summary-stat .lbl { font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
+    @media (max-width: 640px) { .new-hero, .new-body { padding-left: 20px; padding-right: 20px; } .update-item { grid-template-columns: 68px 1fr; } .update-meta { display: none; } }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-mark">◈</span>
+        <span class="logo-text serif">OMNIMIND</span>
+        <span class="nav-tag mono">v1.0 · LIVE</span>
+      </a>
+      <div class="nav-links">
+        <a href="compare.html" class="nav-link">Compare</a>
+        <a href="stacks.html" class="nav-link">Stacks</a>
+        <a href="new.html" class="nav-link active">New</a>
+        <a href="submit.html" class="nav-link nav-cta">Submit Tool</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="new-hero">
+    <p class="eyebrow">Changelog</p>
+    <h1>New &amp; Updated</h1>
+    <p>Every addition, tier change, and notable update — tracked as the AI landscape evolves. Updated weekly.</p>
+  </header>
+
+  <main class="new-body">
+
+    <div class="month-group">
+      <div class="month-label">
+        <h2>April 2025</h2>
+        <span class="count">12 changes</span>
+      </div>
+      <div class="summary-bar">
+        <div class="summary-stat"><div class="val">6</div><div class="lbl">New tools</div></div>
+        <div class="summary-stat"><div class="val">4</div><div class="lbl">Tier upgrades</div></div>
+        <div class="summary-stat"><div class="val">2</div><div class="lbl">Pricing updates</div></div>
+      </div>
+      <div class="update-list">
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Veo 3.1</div><div class="desc">Google's latest video model with native audio synthesis and 4K output. First model to generate coherent audio-video pairs natively.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-video.html" class="cat-link">Video →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-up">Upgraded</span>
+          <div class="update-info"><div class="name">Kling 3.0</div><div class="desc">Moves to Frontier tier after 3.0 release closes motion consistency gap with Runway and Veo.</div></div>
+          <div class="update-meta"><div class="tier-change"><span class="from">Leading</span><span class="arrow">→</span><span class="to">Frontier</span></div><a href="category-video.html" class="cat-link">Video →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Manus</div><div class="desc">First general-purpose agent from China to reach frontier real-world task completion. Invitation-only.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-agents.html" class="cat-link">Agents →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-up">Upgraded</span>
+          <div class="update-info"><div class="name">Genspark Super Agent</div><div class="desc">April update adds multi-agent orchestration and persistent memory. Moves from Specialist to Leading.</div></div>
+          <div class="update-meta"><div class="tier-change"><span class="from">Specialist</span><span class="arrow">→</span><span class="to">Leading</span></div><a href="category-agents.html" class="cat-link">Agents →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Google Lyria RealTime</div><div class="desc">Real-time music generation via Gemini API. Sub-second latency for interactive audio — a genuinely new capability.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-music.html" class="cat-link">Music →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-updated">Pricing</span>
+          <div class="update-info"><div class="name">Midjourney v7</div><div class="desc">Basic plan raised from $8 to $10/mo. GPU hours allocation increased across all plans.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-image.html" class="cat-link">Image →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Windsurf (Codeium)</div><div class="desc">Agentic IDE with full repo awareness. Competitive with Cursor at a lower price point.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔸 Leading</div><a href="category-coding.html" class="cat-link">Coding →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-up">Upgraded</span>
+          <div class="update-info"><div class="name">ElevenLabs</div><div class="desc">v3 model release with 32-language support and emotional range that now leads voice synthesis.</div></div>
+          <div class="update-meta"><div class="tier-change"><span class="from">Leading</span><span class="arrow">→</span><span class="to">Frontier</span></div><a href="category-voice.html" class="cat-link">Voice →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Galileo AI</div><div class="desc">Text-to-UI generating Figma-ready production screens from natural language. Added as Specialist.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔹 Specialist</div><a href="category-design.html" class="cat-link">Design →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-updated">Pricing</span>
+          <div class="update-info"><div class="name">Perplexity Pro</div><div class="desc">Pro plan now includes 600 Pro searches/day (up from 300). Annual discount increased to 20%.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-search.html" class="cat-link">Search →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-up">Upgraded</span>
+          <div class="update-info"><div class="name">Hebbia</div><div class="desc">Enterprise document analysis now handles 100k+ page document sets. Moves to Leading tier.</div></div>
+          <div class="update-meta"><div class="tier-change"><span class="from">Specialist</span><span class="arrow">→</span><span class="to">Leading</span></div><a href="category-business.html" class="cat-link">Business →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Together AI</div><div class="desc">Open model inference with the widest selection of frontier open-weights models. Added to Infra.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-infra.html" class="cat-link">Infra →</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="month-group">
+      <div class="month-label">
+        <h2>March 2025</h2>
+        <span class="count">6 changes</span>
+      </div>
+      <div class="update-list">
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Claude Code</div><div class="desc">Anthropic's terminal-native agentic coding tool. Direct repo manipulation, multi-file awareness. Frontier tier immediately on launch.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-coding.html" class="cat-link">Coding →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Hume AI</div><div class="desc">Empathic Voice Interface with emotional intelligence. Nothing else does this at this quality.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-voice.html" class="cat-link">Voice →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">FLUX 1.1 Pro</div><div class="desc">Black Forest Labs updates with improved prompt adherence and photorealism. Competitive with Midjourney v7.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-image.html" class="cat-link">Image →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Lindy</div><div class="desc">No-code AI agent builder with 3000+ app integrations. Added as Leading tier.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔸 Leading</div><a href="category-agents.html" class="cat-link">Agents →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-up">Upgraded</span>
+          <div class="update-info"><div class="name">Clay</div><div class="desc">Multi-provider enrichment and AI agent row-filling moves Clay to Frontier tier for GTM teams.</div></div>
+          <div class="update-meta"><div class="tier-change"><span class="from">Leading</span><span class="arrow">→</span><span class="to">Frontier</span></div><a href="category-business.html" class="cat-link">Business →</a></div>
+        </div>
+        <div class="update-item">
+          <span class="update-badge badge-new">New</span>
+          <div class="update-info"><div class="name">Pinecone</div><div class="desc">Serverless vector database dominant in RAG infrastructure. Added to Infra category.</div></div>
+          <div class="update-meta"><div class="tier-badge">🔷 Frontier</div><a href="category-infra.html" class="cat-link">Infra →</a></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="logo-mark">◈</span>
+        <span class="serif" style="font-size:18px;font-weight:300;">OMNIMIND</span>
+        <p class="footer-tagline">The editorial AI directory</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <p class="footer-col-head mono">Directory</p>
+          <a href="index.html">Home</a>
+          <a href="compare.html">Compare</a>
+          <a href="stacks.html">Stacks</a>
+          <a href="new.html">New &amp; Updated</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-head mono">About</p>
+          <a href="about.html">About OMNIMIND</a>
+          <a href="about.html#how-we-curate">How we curate</a>
+          <a href="about.html#tiers">Tier system</a>
+          <a href="submit.html">Submit a tool</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-head mono">Categories</p>
+          <a href="category-chatbots.html">Chatbots</a>
+          <a href="category-agents.html">Agents</a>
+          <a href="category-coding.html">Coding</a>
+          <a href="category-image.html">Image</a>
+          <a href="category-video.html">Video</a>
+          <a href="category-voice.html">Voice</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="mono" style="font-size:11px;color:var(--ink-faint);">© 2025 OMNIMIND · v1.0 · LIVE</span>
+    </div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.month-group').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
