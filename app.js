@@ -607,4 +607,13 @@
     renderNav(document.body.dataset.page);
     renderFooter();
   });
+
+  // Clear text selection when the user clicks outside selectable content.
+  // (Browsers don't auto-clear when the mousedown lands on a user-select:none element.)
+  const SELECTABLE = 'p, input, textarea, code, pre, .hero-sub, .page-sub, .section-desc, .dir-desc, .tool-blurb, .tool-summary, .foot-tagline, .note-card p, .form-help, a[href^="mailto:"]';
+  document.addEventListener('mousedown', (e) => {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) return;
+    if (!e.target.closest(SELECTABLE)) sel.removeAllRanges();
+  });
 })();
