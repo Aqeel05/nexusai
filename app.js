@@ -1,5 +1,5 @@
 /* =====================================================
-   NEXUSAI — shared rendering layer
+   nexus.ai — shared rendering layer
    Every dynamic page (category, tool, compare, search)
    reads from window.OMNI and writes into [data-omni-*] mounts.
    ===================================================== */
@@ -139,7 +139,7 @@
       });
     }
 
-    document.title = `${c.name} — NEXUSAI`;
+    document.title = `${c.name} — nexus.ai`;
     reveal();
   }
 
@@ -165,7 +165,7 @@
     const strengths = t.strengths || [];
     const weaknesses = t.weaknesses || [];
 
-    document.title = `${t.name} — ${c.name} — NEXUSAI`;
+    document.title = `${t.name} — ${c.name} — nexus.ai`;
     const meta = document.querySelector('meta[name="description"]');
     if (meta) meta.setAttribute('content', `${t.name} by ${t.maker}. ${t.blurb}`);
 
@@ -358,7 +358,7 @@
         </div>
       </section>`;
 
-    document.title = `${a.name} vs ${b.name} — NEXUSAI Compare`;
+    document.title = `${a.name} vs ${b.name} — nexus.ai Compare`;
 
     $('[data-compare-form]', mount).addEventListener('submit', e => {
       e.preventDefault();
@@ -535,32 +535,34 @@
   function renderFooter() {
     const mount = $('[data-omni-footer]'); if (!mount) return;
     mount.innerHTML = `
-      <h2 class="foot-hero serif">Built for people who want <em>the signal</em>, not the noise.</h2>
-      <div class="foot-grid">
-        <div class="foot-col">
-          <div class="foot-brand serif">NEXUSAI</div>
-          <div class="foot-tagline">The nexus for all of AI. Curated monthly by humans who actually use the tools. No sponsored rankings, ever.</div>
+      <div class="container">
+        <h2 class="foot-hero serif">Built for people who want <em>the signal</em>, not the noise.</h2>
+        <div class="foot-grid">
+          <div class="foot-col">
+            <div class="foot-brand serif">nexus.ai</div>
+            <div class="foot-tagline">The nexus for all of AI. Curated monthly by humans who actually use the tools. No sponsored rankings, ever.</div>
+          </div>
+          <div class="foot-col">
+            <h5>Discover</h5>
+            ${CATEGORIES.slice(0, 6).map(c => `<a href="category-${c.slug}.html">${escape(c.name)}</a>`).join('')}
+          </div>
+          <div class="foot-col">
+            <h5>More categories</h5>
+            ${CATEGORIES.slice(6).map(c => `<a href="category-${c.slug}.html">${escape(c.name)}</a>`).join('')}
+          </div>
+          <div class="foot-col">
+            <h5>nexus.ai</h5>
+            <a href="stacks.html">Stacks</a>
+            <a href="compare.html">Compare</a>
+            <a href="new.html">New &amp; Updated</a>
+            <a href="about.html">About</a>
+            <a href="submit.html">Submit a tool</a>
+          </div>
         </div>
-        <div class="foot-col">
-          <h5>Discover</h5>
-          ${CATEGORIES.slice(0, 6).map(c => `<a href="category-${c.slug}.html">${escape(c.name)}</a>`).join('')}
+        <div class="foot-bottom">
+          <span>© nexus.ai 2026 — editorial AI directory</span>
+          <span>v1.1 · ${TOOLS.length} tools live</span>
         </div>
-        <div class="foot-col">
-          <h5>More categories</h5>
-          ${CATEGORIES.slice(6).map(c => `<a href="category-${c.slug}.html">${escape(c.name)}</a>`).join('')}
-        </div>
-        <div class="foot-col">
-          <h5>NEXUSAI</h5>
-          <a href="stacks.html">Stacks</a>
-          <a href="compare.html">Compare</a>
-          <a href="new.html">New &amp; Updated</a>
-          <a href="about.html">About</a>
-          <a href="submit.html">Submit a tool</a>
-        </div>
-      </div>
-      <div class="foot-bottom">
-        <span>© NEXUSAI 2026 — editorial AI directory</span>
-        <span>v1.1 · ${TOOLS.length} tools live</span>
       </div>`;
   }
 
@@ -571,7 +573,7 @@
     mount.innerHTML = `
       <a href="index.html" class="logo">
         <span class="logo-dot"></span>
-        NEXUSAI
+        nexus.ai
       </a>
       <div class="nav-links">
         ${link('index.html#categories','Categories','categories')}
