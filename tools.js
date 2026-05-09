@@ -1,5 +1,5 @@
 /* =====================================================
-   OMNIMIND — canonical dataset
+   NEXUSAI — canonical dataset
    Single source of truth for every tool, category, stack.
    Pages render from this file.
    ===================================================== */
