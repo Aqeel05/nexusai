@@ -1,167 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — OMNIMIND</title>
-  <meta name="description" content="How we curate the OMNIMIND AI directory: our methodology, tier system, and editorial standards." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="shared.css" />
-  <style>
-    .about-hero { padding: 80px 40px 64px; max-width: 860px; margin: 0 auto; border-bottom: 1px solid var(--line); }
-    .about-hero .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; }
-    .about-hero h1 { font-family: 'Fraunces', Georgia, serif; font-variation-settings: 'SOFT' 50, 'opsz' 72; font-size: clamp(36px, 5vw, 60px); font-weight: 300; line-height: 1.1; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 24px; }
-    .about-hero h1 em { font-style: italic; color: var(--accent); }
-    .about-hero p { font-size: 18px; line-height: 1.7; color: var(--ink-mute); max-width: 640px; }
-    .about-body { max-width: 860px; margin: 0 auto; padding: 0 40px 80px; }
-    .about-section { padding: 56px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .about-section.visible { opacity: 1; transform: translateY(0); }
-    .about-section:last-child { border-bottom: none; }
-    .about-section h2 { font-family: 'Fraunces', Georgia, serif; font-size: 28px; font-weight: 300; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px; }
-    .about-section h2 .mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); display: block; margin-bottom: 8px; }
-    .about-section p { font-size: 16px; line-height: 1.8; color: var(--ink-mute); margin-bottom: 16px; }
-    .about-section p:last-of-type { margin-bottom: 0; }
-    .tier-grid { display: grid; gap: 16px; margin-top: 32px; }
-    .tier-card { background: var(--bg-card); border: 1px solid var(--line); border-radius: 8px; padding: 24px; display: flex; gap: 20px; align-items: flex-start; }
-    .tier-dot-wrap { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
-    .tier-dot-wrap .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .tier-dot-wrap.frontier { background: rgba(255,94,26,0.12); } .tier-dot-wrap.frontier .dot { background: var(--tier-frontier); box-shadow: 0 0 8px var(--tier-frontier); }
-    .tier-dot-wrap.leading { background: rgba(233,210,106,0.12); } .tier-dot-wrap.leading .dot { background: var(--tier-leading); }
-    .tier-dot-wrap.specialist { background: rgba(126,200,227,0.12); } .tier-dot-wrap.specialist .dot { background: var(--tier-specialist); }
-    .tier-dot-wrap.open { background: rgba(152,176,111,0.12); } .tier-dot-wrap.open .dot { background: var(--tier-open); }
-    .tier-info h3 { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 6px; }
-    .tier-info p { font-size: 14px; line-height: 1.6; color: var(--ink-mute); margin: 0; }
-    .principles-list { list-style: none; margin-top: 28px; display: grid; gap: 12px; }
-    .principles-list li { display: flex; gap: 16px; align-items: flex-start; }
-    .principles-list .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.05em; min-width: 24px; padding-top: 2px; }
-    .principles-list .text { font-size: 15px; line-height: 1.65; color: var(--ink-mute); }
-    .principles-list .text strong { color: var(--ink); font-weight: 500; }
-    .about-stats { display: flex; gap: 48px; flex-wrap: wrap; margin-top: 32px; }
-    .about-stat .val { font-family: 'Fraunces', Georgia, serif; font-size: 40px; font-weight: 300; letter-spacing: -0.04em; color: var(--ink); line-height: 1; }
-    .about-stat .lbl { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-top: 6px; }
-    .contact-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 24px; font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.04em; color: var(--accent); border-bottom: 1px solid var(--accent); padding-bottom: 2px; transition: opacity 0.2s; }
-    .contact-link:hover { opacity: 0.7; }
-    @media (max-width: 600px) { .about-hero, .about-body { padding-left: 20px; padding-right: 20px; } .about-stats { gap: 28px; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — OMNIMIND</title>
+<meta name="description" content="How we curate the OMNIMIND AI directory: methodology, tier system, editorial independence.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+  .about-section { padding: 56px 0; border-bottom: 1px solid var(--line); }
+  .about-section:last-child { border-bottom: none; }
+  .about-section h2 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'SOFT' 70, 'opsz' 72, 'wght' 400;
+    font-size: clamp(28px, 4vw, 44px); letter-spacing: -0.02em; line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .about-section h2 .mono {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-faint);
+    display: block; margin-bottom: 10px; font-weight: 500;
+  }
+  .about-section p { font-size: 16px; line-height: 1.75; color: var(--ink-mute); margin-bottom: 16px; max-width: 70ch; }
+  .about-section p:last-of-type { margin-bottom: 0; }
+  .about-section a { color: var(--accent); border-bottom: 1px solid currentColor; }
+
+  .tier-grid { display: grid; gap: 12px; margin-top: 32px; }
+  .tier-row {
+    background: var(--bg-elev); border: 1px solid var(--line); border-radius: var(--r-md);
+    padding: 22px; display: grid; grid-template-columns: 28px 140px 1fr; gap: 18px; align-items: start;
+  }
+  @media (max-width: 700px) { .tier-row { grid-template-columns: 24px 1fr; } .tier-row .tier-row-title { grid-column: 1 / -1; } }
+  .tier-row .tier-mark { width: 16px; height: 16px; border-radius: 50%; margin-top: 4px; }
+  .tier-row .tier-mark.dot-frontier   { background: var(--tier-frontier);   box-shadow: 0 0 8px var(--tier-frontier); }
+  .tier-row .tier-mark.dot-leading    { background: var(--tier-leading); }
+  .tier-row .tier-mark.dot-specialist { background: var(--tier-specialist); }
+  .tier-row .tier-mark.dot-open       { background: var(--tier-open); }
+  .tier-row-title { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); padding-top: 4px; }
+  .tier-row p { color: var(--ink-mute); font-size: 14px; line-height: 1.6; max-width: none; }
+
+  .principles { list-style: none; display: grid; gap: 14px; margin-top: 28px; max-width: 70ch; }
+  .principles li { display: grid; grid-template-columns: 36px 1fr; gap: 12px; }
+  .principles .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); padding-top: 3px; letter-spacing: 0.05em; }
+  .principles strong { color: var(--ink); font-weight: 500; }
+
+  .stat-row { display: flex; gap: 56px; flex-wrap: wrap; margin-top: 32px; }
+  .stat-row .v { font-family: 'Fraunces', serif; font-variation-settings: 'SOFT' 60, 'opsz' 72, 'wght' 400; font-size: 56px; line-height: 1; letter-spacing: -0.03em; }
+  .stat-row .l { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-faint); margin-top: 6px; letter-spacing: 0.08em; text-transform: uppercase; }
+</style>
 </head>
-<body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-mark">◈</span>
-        <span class="logo-text serif">OMNIMIND</span>
-        <span class="nav-tag mono">v1.0 · LIVE</span>
-      </a>
-      <div class="nav-links">
-        <a href="compare.html" class="nav-link">Compare</a>
-        <a href="stacks.html" class="nav-link">Stacks</a>
-        <a href="new.html" class="nav-link">New</a>
-        <a href="submit.html" class="nav-link nav-cta">Submit Tool</a>
-      </div>
-    </div>
-  </nav>
+<body data-page="about">
 
-  <header class="about-hero">
-    <p class="eyebrow">About OMNIMIND</p>
-    <h1>The <em>editorial</em> AI<br>directory</h1>
-    <p>We don't list every tool. We curate the ones that matter — ranked, annotated, and updated as the landscape shifts. No sponsorships. No pay-to-play. Just signal.</p>
-  </header>
+<nav><div class="nav-inner" data-omni-nav></div></nav>
 
-  <main class="about-body">
-    <section class="about-section" id="mission">
-      <h2><span class="mono">01 / Mission</span>Why this exists</h2>
-      <p>The AI tooling ecosystem moves faster than any individual can track. New models drop weekly, benchmarks shift overnight, and yesterday's frontier tool becomes today's commodity. Most directories respond by listing everything — creating noise instead of clarity.</p>
-      <p>OMNIMIND takes the opposite approach. Every entry is a considered editorial decision. We ask: does this tool genuinely change what's possible for practitioners? If the answer isn't clearly yes, it doesn't make the list.</p>
-      <div class="about-stats">
-        <div class="about-stat"><div class="val">100+</div><div class="lbl">Curated tools</div></div>
-        <div class="about-stat"><div class="val">12</div><div class="lbl">Categories</div></div>
-        <div class="about-stat"><div class="val">Weekly</div><div class="lbl">Update cadence</div></div>
+<header class="page-head">
+  <div class="container-narrow">
+    <div class="crumb"><a href="index.html">Index</a><span class="sep">/</span><span>About</span></div>
+    <h1 class="page-title">The <em>editorial</em><br>AI directory.</h1>
+    <p class="page-sub">We don’t list every tool. We curate the ones that matter — ranked, annotated, and updated as the landscape shifts. No sponsorships. No pay-to-play. Just signal.</p>
+  </div>
+</header>
+
+<main>
+  <div class="container-narrow">
+
+    <section class="about-section reveal-on-scroll" id="mission">
+      <h2><span class="mono">01 / Mission</span>Why this exists.</h2>
+      <p>The AI tooling ecosystem moves faster than any individual can track. New models drop weekly, benchmarks shift overnight, and yesterday’s frontier becomes today’s commodity. Most directories respond by listing everything — creating noise instead of clarity.</p>
+      <p>OMNIMIND takes the opposite approach. Every entry is a considered editorial decision. We ask one question: does this tool genuinely change what’s possible for practitioners? If the answer isn’t clearly yes, it doesn’t make the list.</p>
+      <div class="stat-row">
+        <div><div class="v" data-stat-tools>—</div><div class="l">Curated tools</div></div>
+        <div><div class="v">12</div><div class="l">Categories</div></div>
+        <div><div class="v">Monthly</div><div class="l">Review cadence</div></div>
       </div>
     </section>
 
-    <section class="about-section" id="how-we-curate">
-      <h2><span class="mono">02 / Methodology</span>How we curate</h2>
-      <p>Every tool in OMNIMIND is evaluated against the same criteria, regardless of the company behind it. We test tools hands-on, track model updates, and reassess tier placements whenever something materially changes.</p>
-      <ul class="principles-list">
-        <li><span class="num">01</span><span class="text"><strong>Output quality over marketing.</strong> We run real tasks, not cherry-picked demos. Does it actually produce better results than the alternative?</span></li>
-        <li><span class="num">02</span><span class="text"><strong>Honest pricing.</strong> We list real costs including hidden limits, rate limits, and enterprise gating. Free tiers that are effectively useless are noted as such.</span></li>
-        <li><span class="num">03</span><span class="text"><strong>Context-specific verdicts.</strong> A tool rated Specialist for solo developers might be Leading for enterprise teams. Our verdicts reflect the most common use case.</span></li>
-        <li><span class="num">04</span><span class="text"><strong>No commercial relationships.</strong> We accept no advertising, sponsored placements, or affiliate revenue. Tier assignments are editorially independent.</span></li>
-        <li><span class="num">05</span><span class="text"><strong>Living assessments.</strong> A tool's tier can move up or down. We re-evaluate whenever a major version ships or a competitor significantly closes the gap.</span></li>
-      </ul>
+    <section class="about-section reveal-on-scroll" id="how-we-curate">
+      <h2><span class="mono">02 / Methodology</span>How we curate.</h2>
+      <p>Every tool is evaluated against the same criteria, regardless of the company behind it. We test hands-on, track model updates, and reassess tier placements whenever something materially changes.</p>
+      <ol class="principles">
+        <li><span class="num">01</span><span><strong>Output quality over marketing.</strong> We run real tasks, not cherry-picked demos. Does it actually produce better results than the alternative?</span></li>
+        <li><span class="num">02</span><span><strong>Honest pricing.</strong> We list real costs including hidden limits, rate limits, and enterprise gating. Free tiers that are effectively useless are noted as such.</span></li>
+        <li><span class="num">03</span><span><strong>Context-specific verdicts.</strong> A tool rated Specialist for solo developers might be Leading for enterprise teams. Our verdicts reflect the most common use case.</span></li>
+        <li><span class="num">04</span><span><strong>No commercial relationships.</strong> We accept no advertising, sponsored placements, or affiliate revenue. Tier assignments are editorially independent.</span></li>
+        <li><span class="num">05</span><span><strong>Living assessments.</strong> A tool’s tier can move up or down. We re-evaluate whenever a major version ships or a competitor closes the gap.</span></li>
+      </ol>
     </section>
 
-    <section class="about-section" id="tiers">
-      <h2><span class="mono">03 / Tier System</span>What the dots mean</h2>
-      <p>We use a four-tier system to communicate capability relative to the current state of the art. Tiers are not permanent — they reflect the tool's standing <em>today</em>.</p>
+    <section class="about-section reveal-on-scroll" id="tiers">
+      <h2><span class="mono">03 / Tier System</span>What the dots mean.</h2>
+      <p>We use a four-tier system to communicate capability relative to the current state of the art. Tiers are not permanent — they reflect each tool’s standing today.</p>
       <div class="tier-grid">
-        <div class="tier-card"><div class="tier-dot-wrap frontier"><div class="dot"></div></div><div class="tier-info"><h3>🔷 Frontier</h3><p>Best-in-class. Sets the benchmark others are measured against. Typically 6–12 months ahead of the next tier. Worth the premium for professionals who depend on output quality.</p></div></div>
-        <div class="tier-card"><div class="tier-dot-wrap leading"><div class="dot"></div></div><div class="tier-info"><h3>🔸 Leading</h3><p>Strong performers competitive with the best in specific use cases or offering a compelling price-to-performance trade-off. Excellent default choices for most users.</p></div></div>
-        <div class="tier-card"><div class="tier-dot-wrap specialist"><div class="dot"></div></div><div class="tier-info"><h3>🔹 Specialist</h3><p>Best-in-class for a narrow vertical or workflow. Indispensable for practitioners in that specific domain — worth knowing about if you fit the use case.</p></div></div>
-        <div class="tier-card"><div class="tier-dot-wrap open"><div class="dot"></div></div><div class="tier-info"><h3>⬜ Open-Source</h3><p>High-quality open-source options for self-hosting, privacy, or customisation. May require technical setup but offer maximum control and zero vendor lock-in.</p></div></div>
+        <div class="tier-row">
+          <span class="tier-mark dot-frontier"></span>
+          <span class="tier-row-title">Frontier</span>
+          <p>Best-in-class. Sets the benchmark others are measured against. Typically six to twelve months ahead of the next tier. Worth the premium for professionals who depend on output quality.</p>
+        </div>
+        <div class="tier-row">
+          <span class="tier-mark dot-leading"></span>
+          <span class="tier-row-title">Leading</span>
+          <p>Strong performers competitive with the best in specific use cases or offering compelling price-to-performance trade-offs. Excellent default choices for most users.</p>
+        </div>
+        <div class="tier-row">
+          <span class="tier-mark dot-specialist"></span>
+          <span class="tier-row-title">Specialist</span>
+          <p>Best-in-class for a narrow vertical or workflow. Indispensable for practitioners in that specific domain — worth knowing about if you fit the use case.</p>
+        </div>
+        <div class="tier-row">
+          <span class="tier-mark dot-open"></span>
+          <span class="tier-row-title">Open-source</span>
+          <p>High-quality open options for self-hosting, privacy, or customisation. May require technical setup but offer maximum control and zero vendor lock-in.</p>
+        </div>
       </div>
     </section>
 
-    <section class="about-section" id="standards">
-      <h2><span class="mono">04 / Standards</span>Editorial independence</h2>
-      <p>OMNIMIND has no investors with AI portfolio interests, no affiliate deals, and no sponsored content. Every tier assignment, verdict, and ranking is made purely on editorial merit.</p>
-      <p>We accept tool submissions from makers (via the <a href="submit.html" style="color:var(--accent);">Submit</a> page), but submission does not guarantee inclusion. We never accept payment for listings or placements.</p>
-      <p>If you believe a tool is incorrectly tiered, has materially changed since our last evaluation, or is missing entirely, we want to hear from you.</p>
-      <a href="mailto:editorial@omnimind.ai" class="contact-link">editorial@omnimind.ai →</a>
+    <section class="about-section reveal-on-scroll" id="standards">
+      <h2><span class="mono">04 / Standards</span>Editorial independence.</h2>
+      <p>OMNIMIND has no investors with AI-portfolio interests, no affiliate deals, and no sponsored content. Every tier assignment, verdict, and ranking is made on editorial merit alone.</p>
+      <p>We accept tool submissions from makers via the <a href="submit.html">Submit</a> page, but submission does not guarantee inclusion. We never accept payment for listings or placements.</p>
+      <p>If you believe a tool is incorrectly tiered, has materially changed since our last evaluation, or is missing entirely, write us at <a href="mailto:editorial@omnimind.ai">editorial@omnimind.ai</a>.</p>
     </section>
 
-    <section class="about-section" id="updates">
-      <h2><span class="mono">05 / Updates</span>Keeping pace with the field</h2>
-      <p>We publish a curated list of new additions and tier changes on the <a href="new.html" style="color:var(--accent);">New &amp; Updated</a> page. Major model releases trigger immediate re-evaluation of affected categories.</p>
-      <a href="new.html" class="contact-link">View latest updates →</a>
+    <section class="about-section reveal-on-scroll" id="updates">
+      <h2><span class="mono">05 / Updates</span>Keeping pace with the field.</h2>
+      <p>We publish a curated list of new entries and tier changes on the <a href="new.html">New &amp; Updated</a> page. Major model releases trigger immediate re-evaluation of affected categories.</p>
     </section>
-  </main>
 
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="logo-mark">◈</span>
-        <span class="serif" style="font-size:18px;font-weight:300;">OMNIMIND</span>
-        <p class="footer-tagline">The editorial AI directory</p>
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <p class="footer-col-head mono">Directory</p>
-          <a href="index.html">Home</a>
-          <a href="compare.html">Compare</a>
-          <a href="stacks.html">Stacks</a>
-          <a href="new.html">New &amp; Updated</a>
-        </div>
-        <div class="footer-col">
-          <p class="footer-col-head mono">About</p>
-          <a href="about.html">About OMNIMIND</a>
-          <a href="about.html#how-we-curate">How we curate</a>
-          <a href="about.html#tiers">Tier system</a>
-          <a href="submit.html">Submit a tool</a>
-        </div>
-        <div class="footer-col">
-          <p class="footer-col-head mono">Categories</p>
-          <a href="category-chatbots.html">Chatbots</a>
-          <a href="category-agents.html">Agents</a>
-          <a href="category-coding.html">Coding</a>
-          <a href="category-image.html">Image</a>
-          <a href="category-video.html">Video</a>
-          <a href="category-voice.html">Voice</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="mono" style="font-size:11px;color:var(--ink-faint);">© 2025 OMNIMIND · v1.0 · LIVE</span>
-    </div>
-  </footer>
+  </div>
+</main>
 
-  <script>
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.about-section').forEach(el => obs.observe(el));
-  </script>
+<footer data-omni-footer></footer>
+
+<script src="tools.js"></script>
+<script src="app.js"></script>
+<script>
+  document.querySelector('[data-stat-tools]').textContent = OMNI.TOOLS.length;
+  OMNI.render.reveal();
+</script>
 </body>
 </html>

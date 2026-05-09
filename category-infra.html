@@ -1,235 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Infra &amp; APIs — OMNIMIND</title>
-  <meta name="description" content="Best AI infrastructure tools in 2025 — Hugging Face, Replicate, Pinecone, LlamaIndex, Together AI, Modal ranked." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="shared.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OMNIMIND — Category</title>
+<meta name="description" content="A curated category of AI tools on OMNIMIND.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
 </head>
-<body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <span class="logo-mark">◈</span>
-        <span class="logo-text serif">OMNIMIND</span>
-        <span class="nav-tag mono">v1.0 · LIVE</span>
-      </a>
-      <div class="nav-links">
-        <a href="compare.html" class="nav-link">Compare</a>
-        <a href="stacks.html" class="nav-link">Stacks</a>
-        <a href="new.html" class="nav-link">New</a>
-        <a href="submit.html" class="nav-link nav-cta">Submit Tool</a>
-      </div>
-    </div>
-  </nav>
+<body data-page="directory">
 
-  <div class="page-head">
-    <div class="page-head-inner">
-      <div class="breadcrumb mono"><a href="index.html">HOME</a> / <span>INFRA</span></div>
-      <h1 class="serif">Infra &amp; APIs</h1>
-      <p class="page-sub">The foundational layer — model hosting, vector databases, retrieval frameworks, and GPU compute for teams building on top of AI.</p>
-      <div class="cat-tabs">
-        <a href="category-chatbots.html" class="cat-tab">Chatbots</a>
-        <a href="category-agents.html" class="cat-tab">Agents</a>
-        <a href="category-coding.html" class="cat-tab">Coding</a>
-        <a href="category-image.html" class="cat-tab">Image</a>
-        <a href="category-video.html" class="cat-tab">Video</a>
-        <a href="category-music.html" class="cat-tab">Music</a>
-        <a href="category-voice.html" class="cat-tab">Voice</a>
-        <a href="category-search.html" class="cat-tab">Search</a>
-        <a href="category-writing.html" class="cat-tab">Writing</a>
-        <a href="category-design.html" class="cat-tab">Design</a>
-        <a href="category-business.html" class="cat-tab">Business</a>
-        <a href="category-infra.html" class="cat-tab active">Infra</a>
-      </div>
-    </div>
+<nav><div class="nav-inner" data-omni-nav></div></nav>
+
+<header class="page-head">
+  <div class="container" data-omni-category-head></div>
+  <div class="container">
+    <nav class="cat-tabs" data-omni-category-tabs></nav>
   </div>
+</header>
 
-  <main class="cat-main">
-    <div class="cat-intro">
-      <p class="intro-text">The AI infrastructure market consolidated in 2025 around a few dominant players in each vertical. Pinecone maintained its lead in vector databases, Hugging Face became the definitive model hub, and Together AI emerged as the best open-model inference platform for developers who need frontier open-weights models.</p>
-      <div class="intro-stats">
-        <div class="istat"><span class="istat-val">8</span><span class="istat-lbl">Tools ranked</span></div>
-        <div class="istat"><span class="istat-val">4</span><span class="istat-lbl">Frontier tier</span></div>
-        <div class="istat"><span class="istat-val">Apr 2025</span><span class="istat-lbl">Last updated</span></div>
-      </div>
-    </div>
+<section class="section">
+  <div class="container" data-omni-category-list></div>
+</section>
 
-    <div class="filters-bar">
-      <div class="filter-chips">
-        <button class="chip active" data-filter="all">All</button>
-        <button class="chip" data-filter="frontier">Frontier</button>
-        <button class="chip" data-filter="leading">Leading</button>
-        <button class="chip" data-filter="specialist">Specialist</button>
-        <button class="chip" data-filter="open">Open-source</button>
-      </div>
-    </div>
+<footer data-omni-footer></footer>
 
-    <div class="cat-listing">
-      <div class="tool-list">
-
-        <a class="tool-item reveal" href="#" data-tier="frontier">
-          <span class="tool-rank mono">01</span>
-          <div class="tool-main">
-            <div class="tool-name">Hugging Face</div>
-            <div class="tool-maker mono">HUGGING FACE</div>
-            <div class="tool-verdict">The GitHub of AI models. 500k+ models, datasets, and spaces. Inference Endpoints for production deployment. The essential hub for any team working with open models.</div>
-          </div>
-          <span class="tier-pip frontier-pip"></span>
-          <span class="tool-price">Free · $9/mo · Enterprise</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="frontier">
-          <span class="tool-rank mono">02</span>
-          <div class="tool-main">
-            <div class="tool-name">Pinecone</div>
-            <div class="tool-maker mono">PINECONE</div>
-            <div class="tool-verdict">Serverless vector database with automatic scaling. Dominant market position in RAG infrastructure. The default choice for production vector search.</div>
-          </div>
-          <span class="tier-pip frontier-pip"></span>
-          <span class="tool-price">Free · $70/mo</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="frontier">
-          <span class="tool-rank mono">03</span>
-          <div class="tool-main">
-            <div class="tool-name">Together AI</div>
-            <div class="tool-maker mono">TOGETHER AI</div>
-            <div class="tool-verdict">Open model inference with the widest selection of frontier open-weights models. Fastest Llama, DeepSeek, and Mistral inference available via API.</div>
-          </div>
-          <span class="tier-pip frontier-pip"></span>
-          <span class="tool-price">Pay-per-token</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="frontier">
-          <span class="tool-rank mono">04</span>
-          <div class="tool-main">
-            <div class="tool-name">Replicate</div>
-            <div class="tool-maker mono">REPLICATE</div>
-            <div class="tool-verdict">Run any open-source model via API without managing infrastructure. Thousands of community models available. Best for prototyping with diverse model types.</div>
-          </div>
-          <span class="tier-pip frontier-pip"></span>
-          <span class="tool-price">Pay-per-run</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="leading">
-          <span class="tool-rank mono">05</span>
-          <div class="tool-main">
-            <div class="tool-name">LlamaIndex</div>
-            <div class="tool-maker mono">LLAMAINDEX</div>
-            <div class="tool-verdict">Data framework for LLM applications. Connectors, indices, and query engines for building RAG pipelines over any data source. Essential for RAG development.</div>
-          </div>
-          <span class="tier-pip leading-pip"></span>
-          <span class="tool-price">Free (OSS) · Cloud</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="leading">
-          <span class="tool-rank mono">06</span>
-          <div class="tool-main">
-            <div class="tool-name">Weaviate</div>
-            <div class="tool-maker mono">WEAVIATE</div>
-            <div class="tool-verdict">Open-source vector database with multimodal support. Strong for teams that need self-hosted vector search with flexibility beyond Pinecone's managed offering.</div>
-          </div>
-          <span class="tier-pip leading-pip"></span>
-          <span class="tool-price">Free (OSS) · Cloud</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="specialist">
-          <span class="tool-rank mono">07</span>
-          <div class="tool-main">
-            <div class="tool-name">Tavily</div>
-            <div class="tool-maker mono">TAVILY</div>
-            <div class="tool-verdict">Search API purpose-built for AI agents. Returns clean, structured results optimised for LLM consumption — not scraped HTML. The best web search API for agents.</div>
-          </div>
-          <span class="tier-pip specialist-pip"></span>
-          <span class="tool-price">Free · $35/mo</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-        <a class="tool-item reveal" href="#" data-tier="specialist">
-          <span class="tool-rank mono">08</span>
-          <div class="tool-main">
-            <div class="tool-name">Modal</div>
-            <div class="tool-maker mono">MODAL LABS</div>
-            <div class="tool-verdict">Serverless GPU compute for Python. Run ML workloads without managing infrastructure. The best option for ML engineers who want cloud GPUs without DevOps.</div>
-          </div>
-          <span class="tier-pip specialist-pip"></span>
-          <span class="tool-price">Pay-per-use</span>
-          <span class="tool-arrow">→</span>
-        </a>
-
-      </div>
-    </div>
-
-    <div class="cta-strip">
-      <a href="stacks.html" class="cta-btn">See developer stacks →</a>
-      <a href="submit.html" class="cta-btn cta-ghost">Submit a tool →</a>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <span class="logo-mark">◈</span>
-        <span class="serif" style="font-size:18px;font-weight:300;">OMNIMIND</span>
-        <p class="footer-tagline">The editorial AI directory</p>
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <p class="footer-col-head mono">Directory</p>
-          <a href="index.html">Home</a>
-          <a href="compare.html">Compare</a>
-          <a href="stacks.html">Stacks</a>
-          <a href="new.html">New &amp; Updated</a>
-        </div>
-        <div class="footer-col">
-          <p class="footer-col-head mono">About</p>
-          <a href="about.html">About OMNIMIND</a>
-          <a href="about.html#how-we-curate">How we curate</a>
-          <a href="about.html#tiers">Tier system</a>
-          <a href="submit.html">Submit a tool</a>
-        </div>
-        <div class="footer-col">
-          <p class="footer-col-head mono">Categories</p>
-          <a href="category-chatbots.html">Chatbots</a>
-          <a href="category-agents.html">Agents</a>
-          <a href="category-coding.html">Coding</a>
-          <a href="category-image.html">Image</a>
-          <a href="category-video.html">Video</a>
-          <a href="category-voice.html">Voice</a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span class="mono" style="font-size:11px;color:var(--ink-faint);">© 2025 OMNIMIND · v1.0 · LIVE</span>
-    </div>
-  </footer>
-
-  <script>
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
-    }, { threshold: 0.05 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-    document.querySelectorAll('.chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        const f = chip.dataset.filter;
-        document.querySelectorAll('.tool-item').forEach(item => {
-          item.style.display = (f === 'all' || item.dataset.tier === f) ? '' : 'none';
-        });
-      });
-    });
-  </script>
+<script src="tools.js"></script>
+<script src="app.js"></script>
+<script>OMNI.render.category('infra');</script>
 </body>
 </html>
