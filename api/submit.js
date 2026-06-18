@@ -14,8 +14,11 @@
    ===================================================== */
 
 const RECIPIENT = 'aqeel@epicdynamics.ai';
-// Must be a domain verified in your email provider. Override via env.
-const FROM = process.env.SUBMIT_FROM_EMAIL || 'nexus.ai <noreply@epicdynamics.ai>';
+// Default sender uses Resend's shared test domain — works with zero DNS setup, but in
+// test mode Resend only delivers to your Resend account's own email address.
+// For production (accepting mail about anyone), verify epicdynamics.ai in Resend and set
+// SUBMIT_FROM_EMAIL to e.g. 'nexus.ai <noreply@epicdynamics.ai>'.
+const FROM = process.env.SUBMIT_FROM_EMAIL || 'nexus.ai <onboarding@resend.dev>';
 
 const LIMITS = {
   toolName: 120, toolUrl: 300, toolCategory: 40, toolDesc: 120,

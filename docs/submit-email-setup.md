@@ -12,21 +12,32 @@ The **Submit a Tool** form (`submit.html`) posts to a Vercel Serverless Function
 `api/submit.js` sends via [Resend](https://resend.com) using a plain `fetch` call (no npm
 dependency added). Resend's free tier is enough for a submission form.
 
-1. Create a Resend account.
-2. **Verify the `epicdynamics.ai` domain** in Resend (add the DNS records it gives you).
-   This is what lets you send *from* `noreply@epicdynamics.ai`.
-3. Create an API key.
+### Quick start (no DNS — works today)
+
+The code defaults to sending from Resend's shared test domain `onboarding@resend.dev`,
+which needs **no domain verification**. The only catch: in test mode Resend delivers
+**only to the email address your Resend account is registered under**. So as long as your
+Resend account is `aqeel@epicdynamics.ai`, submissions arrive there.
+
+1. Create a Resend account (registered to `aqeel@epicdynamics.ai`).
+2. Create an API key.
+3. Set just `RESEND_API_KEY` in Vercel (below). Done.
+
+### Production (send about anyone, any inbox)
+
+When you want it fully live, verify the `epicdynamics.ai` domain in Resend (add the DNS
+records it shows you), then set `SUBMIT_FROM_EMAIL` to `nexus.ai <noreply@epicdynamics.ai>`.
 
 ## 2. Set environment variables in Vercel
 
 Project → Settings → Environment Variables:
 
-| Variable            | Value                                             | Notes                              |
-| ------------------- | ------------------------------------------------- | ---------------------------------- |
-| `RESEND_API_KEY`    | `re_...` (from Resend)                            | **Secret. Server-only.**           |
-| `SUBMIT_FROM_EMAIL` | `nexus.ai <noreply@epicdynamics.ai>`              | Optional; must be a verified sender |
+| Variable            | Value                                  | Notes                                            |
+| ------------------- | -------------------------------------- | ------------------------------------------------ |
+| `RESEND_API_KEY`    | `re_...` (from Resend)                 | **Required. Secret. Server-only.**               |
+| `SUBMIT_FROM_EMAIL` | `nexus.ai <noreply@epicdynamics.ai>`   | **Optional.** Omit to use the test sender. Must be a verified domain if set. |
 
-Redeploy after adding them.
+**Redeploy after adding them** — env vars only apply to new deployments.
 
 ## 3. Why this is secure
 
