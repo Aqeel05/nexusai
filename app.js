@@ -633,7 +633,7 @@
       canvas.style.height = h + 'px';
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       // Density scales with viewport but is capped for performance.
-      const target = Math.min(90, Math.max(28, Math.round((w * h) / 22000)));
+      const target = Math.min(150, Math.max(50, Math.round((w * h) / 13000)));
       nodes = Array.from({ length: target }, () => ({
         x: Math.random() * w,
         y: Math.random() * h,
@@ -642,7 +642,7 @@
       }));
     }
 
-    const LINK_DIST = 150;          // px distance under which two nodes connect
+    const LINK_DIST = 170;          // px distance under which two nodes connect
 
     function draw() {
       ctx.clearRect(0, 0, w, h);

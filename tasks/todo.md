@@ -58,3 +58,20 @@
   pushing (and humans can run anytime). Prints "✓ Data OK" or fails non-zero.
 
 **Also:** vendored github.com/obra/superpowers into `skills/superpowers/` (de-gitted).
+
+---
+
+## Follow-up round (denser bg + submit email)
+
+**Denser Nexus background**
+- Raised node density (cap 90→150, divisor 22k→13k, min 28→50) and link distance
+  (150→170) in `app.js`. More dots and connections, still perf-capped.
+
+**Submit form now emails aqeel@epicdynamics.ai (was NOT implemented before)**
+- Previously the form only showed a success message and sent nothing.
+- Added `api/submit.js` Vercel function: server-side validation, length caps,
+  HTML-escaping, honeypot, best-effort rate limit, sends via Resend (key in env only).
+- Rewired `submit.html` to POST JSON to `/api/submit` with success/error states + honeypot.
+- 16 security/validation unit tests + 7 browser-flow checks all pass.
+- Setup documented in `docs/submit-email-setup.md` (needs `RESEND_API_KEY` +
+  verified sender domain in Vercel before mail actually delivers).
