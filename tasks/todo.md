@@ -28,5 +28,33 @@
 - [ ] Surface the same text in chat for easy copy-paste.
 
 ## Verify & ship
-- [ ] Re-run integrity check; serve & verify pages; commit on `claude/lucid-mayer-wx2xvo`; push.
-- [ ] Record review notes here + capture any lessons.
+- [x] Re-run integrity check; render-test every page; commit on `claude/lucid-mayer-wx2xvo`; push.
+- [x] Record review notes here + capture any lessons.
+
+---
+
+## Review (done)
+
+**Task 1 — audit & bug fix**
+- Data layer audited clean (108 tools / 12 cats, no broken refs, no missing fields).
+- Fixed the mobile-nav bug: added an accessible hamburger toggle (app.js `renderNav`) +
+  a slide-down panel (shared.css). Below 880px all links are reachable again.
+- Verified with jsdom: all 9 page types render with **zero runtime errors**; nav toggle,
+  category tier filter (10→3 on "frontier"), and the compare form all fire correctly.
+
+**Task 2 — Nexus background**
+- Added a fixed full-viewport `<canvas class="nexus-bg">` injected site-wide from app.js
+  (`initNexusBackground`). Draws a drifting network of nodes + distance-faded links that
+  brighten toward a central "nexus" focus, with gentle cursor attraction.
+- Performance-capped (DPR≤2, node count scales with viewport, pauses on hidden tab).
+  Respects `prefers-reduced-motion` (single static frame). Sits at z-index 0, behind the
+  grain (z-1) and content (z-2); masked + 0.55 opacity so text stays crisp.
+- Verified draw loop runs without errors (stubbed 2D context: ~70 links + 47 nodes/frame).
+
+**Task 3 — auto-update routine**
+- Added `routines/auto-update.md`: copy-paste Name + Instructions + weekly Schedule trigger,
+  pushing directly to `claude/auto-update` (per request).
+- Added `scripts/check-data.js` — reusable dataset validator the routine runs before
+  pushing (and humans can run anytime). Prints "✓ Data OK" or fails non-zero.
+
+**Also:** vendored github.com/obra/superpowers into `skills/superpowers/` (de-gitted).

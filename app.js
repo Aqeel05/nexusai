@@ -575,7 +575,12 @@
         <span class="logo-dot"></span>
         nexus.ai
       </a>
-      <div class="nav-links">
+      <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="omniNavLinks">
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+        <span class="nav-toggle-bar"></span>
+      </button>
+      <div class="nav-links" id="omniNavLinks">
         ${link('index.html#categories','Categories','categories')}
         ${link('category-chatbots.html','Directory','directory')}
         ${link('stacks.html','Stacks','stacks')}
@@ -583,6 +588,125 @@
         ${link('new.html','New','new')}
         <a href="submit.html" class="nav-cta">Submit Tool</a>
       </div>`;
+
+    // Mobile menu toggle — without this the links are unreachable on small screens.
+    const toggle = $('.nav-toggle', mount);
+    const links = $('.nav-links', mount);
+    if (toggle && links) {
+      const setOpen = (open) => {
+        links.classList.toggle('is-open', open);
+        toggle.classList.toggle('is-open', open);
+        toggle.setAttribute('aria-expanded', String(open));
+      };
+      toggle.addEventListener('click', () => setOpen(!links.classList.contains('is-open')));
+      // Close after tapping a link (same-page hash links don't reload the page).
+      links.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+      // Close on Escape for keyboard users.
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
+    }
+  }
+
+  /* ---------- "Nexus" animated background ---------- */
+  // A living web of connected nodes drifting behind the content — a literal nexus.
+  // Injected from JS so a single source covers every page; sits behind all UI.
+  function initNexusBackground() {
+    if (document.querySelector('.nexus-bg')) return;
+    const canvas = document.createElement('canvas');
+    canvas.className = 'nexus-bg';
+    canvas.setAttribute('aria-hidden', 'true');
+    document.body.insertBefore(canvas, document.body.firstChild);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ACCENT = [255, 94, 26];   // --accent
+    const INK = [237, 234, 228];    // --ink
+    let w = 0, h = 0, dpr = 1, nodes = [], raf = null;
+    const pointer = { x: -9999, y: -9999, active: false };
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth; h = window.innerHeight;
+      canvas.width = Math.floor(w * dpr);
+      canvas.height = Math.floor(h * dpr);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Density scales with viewport but is capped for performance.
+      const target = Math.min(90, Math.max(28, Math.round((w * h) / 22000)));
+      nodes = Array.from({ length: target }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.22,
+        vy: (Math.random() - 0.5) * 0.22,
+      }));
+    }
+
+    const LINK_DIST = 150;          // px distance under which two nodes connect
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      const cx = w / 2, cy = h * 0.42;   // the "nexus" — links brighten toward here
+      const maxR = Math.hypot(w, h) / 2;
+
+      // Links
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x, dy = a.y - b.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist > LINK_DIST) continue;
+          const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+          const focus = 1 - Math.min(1, Math.hypot(mx - cx, my - cy) / maxR);
+          const alpha = (1 - dist / LINK_DIST) * (0.10 + focus * 0.28);
+          const c = focus > 0.55 ? ACCENT : INK;
+          ctx.strokeStyle = `rgba(${c[0]},${c[1]},${c[2]},${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+
+      // Nodes
+      for (const n of nodes) {
+        const focus = 1 - Math.min(1, Math.hypot(n.x - cx, n.y - cy) / maxR);
+        const c = focus > 0.6 ? ACCENT : INK;
+        ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${0.18 + focus * 0.30})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function step() {
+      for (const n of nodes) {
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < -20) n.x = w + 20; else if (n.x > w + 20) n.x = -20;
+        if (n.y < -20) n.y = h + 20; else if (n.y > h + 20) n.y = -20;
+        // Gentle drift toward the pointer — a faint magnetic nexus.
+        if (pointer.active) {
+          const dx = pointer.x - n.x, dy = pointer.y - n.y;
+          const d = Math.hypot(dx, dy);
+          if (d < 180 && d > 0.5) { n.x += (dx / d) * 0.18; n.y += (dy / d) * 0.18; }
+        }
+      }
+      draw();
+      raf = requestAnimationFrame(step);
+    }
+
+    function start() { if (!raf && !reduced) raf = requestAnimationFrame(step); }
+    function stop() { if (raf) { cancelAnimationFrame(raf); raf = null; } }
+
+    window.addEventListener('resize', () => { resize(); if (reduced) draw(); }, { passive: true });
+    window.addEventListener('pointermove', e => { pointer.x = e.clientX; pointer.y = e.clientY; pointer.active = true; }, { passive: true });
+    window.addEventListener('pointerleave', () => { pointer.active = false; }, { passive: true });
+    document.addEventListener('visibilitychange', () => { document.hidden ? stop() : start(); });
+
+    resize();
+    if (reduced) draw(); else start();   // static frame when motion is reduced
   }
 
   /* ---------- public entry ---------- */
@@ -607,6 +731,10 @@
     renderNav(document.body.dataset.page);
     renderFooter();
   });
+
+  // Nexus background — start as soon as the body is available.
+  if (document.body) initNexusBackground();
+  else document.addEventListener('DOMContentLoaded', initNexusBackground);
 
   // Clear text selection when the user clicks outside selectable content.
   // (Browsers don't auto-clear when the mousedown lands on a user-select:none element.)
