@@ -22,6 +22,29 @@
 
   const pad = (n, w=3) => String(n).padStart(w, '0');
 
+  /* ---------- category icons (monoline SVG, replaces emoji) ---------- */
+  // Inner paths only; wrapped by icon() with consistent stroke styling so every
+  // category icon matches the arrow / external-link SVGs already in the design.
+  const ICON_PATHS = {
+    chatbots: '<path d="M21 11.5a8.5 8.5 0 0 1-12.2 7.7L3 21l1.8-5.8A8.5 8.5 0 1 1 21 11.5Z"/><path d="M8.5 11.5h.01M12 11.5h.01M15.5 11.5h.01"/>',
+    agents:   '<rect x="5" y="7" width="14" height="11" rx="2.5"/><path d="M12 7V4M9.5 3.5h5"/><path d="M9.5 12.5h.01M14.5 12.5h.01"/><path d="M2.5 11v3M21.5 11v3"/>',
+    image:    '<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="9.5" r="1.6"/><path d="M4 16l4.5-4 3 2.5L15 11l5 5"/>',
+    video:    '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10 9l5 3-5 3z"/>',
+    music:    '<path d="M9 18V6l10-2v10"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>',
+    voice:    '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/>',
+    coding:   '<path d="M8.5 8.5 4 12l4.5 3.5M15.5 8.5 20 12l-4.5 3.5M13.5 6l-3 12"/>',
+    search:   '<circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/>',
+    writing:  '<rect x="4.5" y="3" width="15" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+    design:   '<rect x="3" y="3" width="4.5" height="4.5" rx="0.6"/><rect x="16.5" y="16.5" width="4.5" height="4.5" rx="0.6"/><path d="M7.5 5.2H12a6 6 0 0 1 6 6v5.3"/>',
+    business: '<rect x="3" y="7" width="18" height="12" rx="2"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7M3 12.5h18"/>',
+    infra:    '<rect x="3.5" y="4" width="17" height="6" rx="1.5"/><rect x="3.5" y="14" width="17" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/>',
+  };
+  const catIcon = (slug) => {
+    const inner = ICON_PATHS[slug];
+    if (!inner) return '';
+    return `<svg class="cat-svg" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+  };
+
   const reveal = (root=document) => {
     const els = $$('.reveal-on-scroll', root);
     if (!els.length || !('IntersectionObserver' in window)) {
@@ -48,7 +71,7 @@
         </div>
         <div class="dir-desc">${escape(t.blurb)}</div>
         <div class="dir-tag">${tierDot(t.tier)}${tierLabel(t.tier)}</div>
-        <div class="dir-cat-tag">${c ? c.icon + ' ' + escape(c.name) : ''}</div>
+        <div class="dir-cat-tag">${c ? catIcon(c.slug) + ' ' + escape(c.name) : ''}</div>
         <div class="dir-price">${escape(t.pricing)}</div>
         <div class="dir-arrow">${arrow}</div>
       </a>`;
@@ -82,7 +105,7 @@
           <span class="sep">/</span>
           <span>${escape(c.name)}</span>
         </div>
-        <h1 class="page-title"><span class="page-icon">${c.icon}</span> ${escape(c.name).replace(' & ', ' <em>&</em> ')}</h1>
+        <h1 class="page-title"><span class="page-icon">${catIcon(c.slug)}</span> ${escape(c.name).replace(' & ', ' <em>&</em> ')}</h1>
         <p class="page-sub">${escape(c.desc)}</p>
         <div class="legend">
           <span class="legend-item">${tierDot('frontier')}Frontier</span>
@@ -95,7 +118,7 @@
     const tabsMount = $('[data-omni-category-tabs]');
     if (tabsMount) {
       tabsMount.innerHTML = CATEGORIES.map(x =>
-        `<a href="category-${x.slug}.html" class="cat-tab ${x.slug === slug ? 'is-active' : ''}">${x.icon} ${escape(x.name.replace(' & LLMs',''))}</a>`
+        `<a href="category-${x.slug}.html" class="cat-tab ${x.slug === slug ? 'is-active' : ''}">${catIcon(x.slug)} ${escape(x.name.replace(' & LLMs',''))}</a>`
       ).join('');
     }
 
@@ -175,7 +198,7 @@
           <div class="crumb">
             <a href="index.html">Index</a>
             <span class="sep">/</span>
-            <a href="category-${c.slug}.html">${c.icon} ${escape(c.name)}</a>
+            <a href="category-${c.slug}.html">${catIcon(c.slug)} ${escape(c.name)}</a>
             <span class="sep">/</span>
             <span>${escape(t.name)}</span>
           </div>
@@ -450,7 +473,7 @@
       const examples = ts.slice(0, 6).map(t => t.name).join(', ');
       return `
         <a href="category-${c.slug}.html" class="cat-card">
-          <span class="cat-icon">${c.icon}</span>
+          <span class="cat-icon">${catIcon(c.slug)}</span>
           <div class="cat-name">${escape(c.name)}</div>
           <div class="cat-count">${ts.length} TOOLS</div>
           <div class="cat-examples">${escape(examples)}…</div>

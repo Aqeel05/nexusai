@@ -154,7 +154,18 @@
     color: var(--ink);
   }
   .cat-card:hover { background: var(--bg-elev); }
-  .cat-icon { font-size: 28px; margin-bottom: 20px; display: inline-block; }
+  .cat-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 46px; height: 46px; margin-bottom: 22px;
+    border: 1px solid var(--line); border-radius: 12px;
+    background: var(--bg-soft); color: var(--ink-mute);
+    transition: color 0.2s, border-color 0.2s, background 0.2s, transform 0.2s;
+  }
+  .cat-icon .cat-svg { font-size: 23px; }
+  .cat-card:hover .cat-icon {
+    color: var(--accent); border-color: var(--accent);
+    background: var(--accent-soft); transform: translateY(-2px);
+  }
   .cat-name {
     font-family: 'Fraunces', serif;
     font-variation-settings: 'SOFT' 50, 'opsz' 36, 'wght' 500;
