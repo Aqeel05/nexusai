@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>nexus.ai — Every AI, one place.</title>
 <meta name="description" content="Every AI, one place. A curated directory of the tools that actually matter — no pay-to-rank, no filler. Just the frontier, organised with taste.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<!-- Social share -->
+<meta property="og:title" content="nexus.ai — Every AI, one place.">
+<meta property="og:description" content="A curated directory of the AI tools that actually matter. No pay-to-rank, no filler — just the frontier, organised with taste.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="nexus.ai — Every AI, one place.">
+<meta name="twitter:description" content="A curated directory of the AI tools that actually matter. No pay-to-rank, no filler.">
+<meta name="twitter:image" content="assets/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600&display=swap" rel="stylesheet">
@@ -123,6 +133,27 @@
   }
   .featured-card:hover { background: var(--bg-elev); }
   .featured-card.featured-big { min-height: 460px; }
+  /* Atmospheric "nexus" art layer. The generated image sits between a top scrim
+     (for text legibility) and an ember accent glow that doubles as the fallback
+     if the image hasn't been vendored yet — so cards always look intentional. */
+  .featured-card { --feat-img: url('assets/featured-nexus-2.png'); }
+  .featured-card.featured-big { --feat-img: url('assets/featured-nexus-1.png'); }
+  .featured-card::before {
+    content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+    background-image:
+      linear-gradient(180deg, rgba(10,10,11,0.42), rgba(10,10,11,0.86) 78%, var(--bg)),
+      var(--feat-img, none),
+      radial-gradient(110% 90% at 75% 6%, rgba(255,94,26,0.12), transparent 55%);
+    background-size: cover, cover, cover;
+    background-position: center, center, center;
+    background-repeat: no-repeat;
+    opacity: 0.85; transition: opacity 0.3s ease;
+  }
+  .featured-card:hover::before { opacity: 1; }
+  .featured-card > * { position: relative; z-index: 1; }
+  .featured-grid > .featured-card:nth-child(3)::before { background-position: center, 15% 70%, center; }
+  .featured-grid > .featured-card:nth-child(4)::before { background-position: center, 85% 20%, center; }
+  .featured-grid > .featured-card:nth-child(5)::before { background-position: center, 50% 100%, center; }
   .featured-card h3 {
     font-family: 'Fraunces', serif;
     font-variation-settings: 'SOFT' 60, 'opsz' 72, 'wght' 500;

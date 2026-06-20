@@ -75,3 +75,26 @@
 - 16 security/validation unit tests + 7 browser-flow checks all pass.
 - Setup documented in `docs/submit-email-setup.md` (needs `RESEND_API_KEY` +
   verified sender domain in Vercel before mail actually delivers).
+
+---
+
+## Design overhaul round
+
+**Phase 1 — emoji → SVG icons (done)**
+- Replaced all 12 childish emoji category icons with a hand-built monoline SVG set
+  (`catIcon()` in app.js) matching the existing arrow icons. Home cards use a bordered
+  icon tile that tints to accent on hover. Verified: 12 icons render, no emoji remain.
+
+**Phase 2 — Higgsfield imagery (partial; blocked on egress)**
+- Generated 2 on-brand abstract "nexus" textures via Higgsfield nano_banana_2
+  (job ids 62be741f…, 61bbd6e2…). Wired into the 5 home featured cards as a masked art
+  layer **with an ember-gradient fallback** so cards look intentional even before the
+  PNGs are vendored.
+- ⚠️ Could not download the PNGs: env network policy blocks the Higgsfield CDN host
+  `d8j0ntlcm91z4.cloudfront.net`. Needs allowlisting to vendor `assets/featured-nexus-*.png`
+  (no extra credits — images already generated). Higgsfield balance is down to 0 credits.
+
+**Phase 3 — polish (done / partial)**
+- Added `favicon.svg` (nexus motif) injected site-wide via app.js.
+- Added Open Graph + Twitter share meta to the homepage. `assets/og.png` still to be
+  vendored (pending egress allowlist or NanoBanana).

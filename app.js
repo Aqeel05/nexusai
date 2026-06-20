@@ -755,6 +755,13 @@
     renderFooter();
   });
 
+  // Favicon — inject once so every page shares the nexus mark without editing each <head>.
+  if (!document.querySelector('link[rel="icon"]')) {
+    const fav = document.createElement('link');
+    fav.rel = 'icon'; fav.type = 'image/svg+xml'; fav.href = 'favicon.svg';
+    document.head.appendChild(fav);
+  }
+
   // Nexus background — start as soon as the body is available.
   if (document.body) initNexusBackground();
   else document.addEventListener('DOMContentLoaded', initNexusBackground);
