@@ -1,100 +1,96 @@
-# nexus.ai — Work Plan
+# Task — Add Omnigent + refresh the directory with the latest AI tools
 
-## Task 1 — Feature audit & bug fixes
-- [x] Static integrity audit of data layer (108 tools / 12 cats — clean, no broken refs)
-- [ ] **Fix mobile-nav bug**: at ≤880px all nav links except "Submit Tool" are hidden with no
-      replacement. Add an accessible hamburger toggle in `renderNav` (app.js) + styles in
-      `shared.css` so Categories/Directory/Stacks/Compare/New stay reachable on phones.
-- [ ] Runtime smoke test: serve locally, confirm every page returns 200 and renders without
-      console errors; click-through key flows (search, category filters, compare form,
-      tool detail, submit validation).
-- [ ] Fix any additional issues surfaced during the pass.
+**Branch:** `claude/ai-tools-collection-8dv3w2` → merge to `main`
 
-## Task 2 — "Nexus" themed animated background
-- [ ] Add a single fixed full-viewport `<canvas>` behind all content (pointer-events:none,
-      z-index below UI), injected site-wide from `app.js` so one change covers every page.
-- [ ] Draw a living **nexus network**: drifting nodes joined by thin links that fade with
-      distance, a faint accent-colored convergence glow — a literal "nexus" of connections.
-- [ ] Performance: DPR-aware, node count scales with viewport, pauses when tab hidden,
-      gentle cursor parallax. Respect `prefers-reduced-motion` (render a static frame).
-- [ ] Keep text readable: low opacity + vignette so it never competes with content.
-
-## Task 3 — Auto-update routine (copy-paste for Claude Code)
-- [ ] Create `routines/auto-update.md`: ready-to-paste Name + Instructions + recommended
-      trigger (weekly Schedule) + repo/branch. Instructions tell Claude Code to research new
-      AI launches & ranking shifts, edit `tools.js` (add fully-formed tool objects, adjust
-      tiers/rankings, prepend `NEW_UPDATES`, keep every category ≥5), run the integrity
-      check, then **commit & push directly to a branch** (per user choice).
-- [ ] Surface the same text in chat for easy copy-paste.
-
-## Verify & ship
-- [x] Re-run integrity check; render-test every page; commit on `claude/lucid-mayer-wx2xvo`; push.
-- [x] Record review notes here + capture any lessons.
+Everything the site renders comes from `tools.js`. Data-only edits; no markup changes.
+Last curated `NEW_UPDATES` date was `2026-04`, so the research window is roughly
+**April → August 2026**.
 
 ---
 
-## Review (done)
+## Plan
 
-**Task 1 — audit & bug fix**
-- Data layer audited clean (108 tools / 12 cats, no broken refs, no missing fields).
-- Fixed the mobile-nav bug: added an accessible hamburger toggle (app.js `renderNav`) +
-  a slide-down panel (shared.css). Below 880px all links are reachable again.
-- Verified with jsdom: all 9 page types render with **zero runtime errors**; nav toggle,
-  category tier filter (10→3 on "frontier"), and the compare form all fire correctly.
+### 1. Research (web, primary sources preferred)
+- [x] Omnigent — what it is, maker, license, maturity
+- [x] Coding agents shipped since April 2026
+- [x] Video models shipped since April 2026
+- [x] Image models shipped since April 2026
+- [x] Open-weight LLMs shipped since April 2026
+- [x] Agent / infra platforms shipped since April 2026
+- [x] Verify candidates that turned out to be **dead ends** (see below)
 
-**Task 2 — Nexus background**
-- Added a fixed full-viewport `<canvas class="nexus-bg">` injected site-wide from app.js
-  (`initNexusBackground`). Draws a drifting network of nodes + distance-faded links that
-  brighten toward a central "nexus" focus, with gentle cursor attraction.
-- Performance-capped (DPR≤2, node count scales with viewport, pauses on hidden tab).
-  Respects `prefers-reduced-motion` (single static frame). Sits at z-index 0, behind the
-  grain (z-1) and content (z-2); masked + 0.55 opacity so text stays crisp.
-- Verified draw loop runs without errors (stubbed 2D context: ~70 links + 47 nodes/frame).
+### 2. Additions to `TOOLS` (12)
 
-**Task 3 — auto-update routine**
-- Added `routines/auto-update.md`: copy-paste Name + Instructions + weekly Schedule trigger,
-  pushing directly to `claude/auto-update` (per request).
-- Added `scripts/check-data.js` — reusable dataset validator the routine runs before
-  pushing (and humans can run anytime). Prints "✓ Data OK" or fails non-zero.
+| slug | name | maker | cat | tier |
+| --- | --- | --- | --- | --- |
+| `omnigent` | Omnigent | Databricks | agents | open |
+| `browser-use` | Browser Use | Browser Use | agents | open |
+| `kiro` | Kiro | AWS | coding | leading |
+| `seedance` | Seedance 2.5 | ByteDance | video | frontier |
+| `ltx` | LTX-2 | Lightricks | video | open |
+| `nano-banana` | Nano Banana Pro | Google DeepMind | image | frontier |
+| `gpt-image` | GPT Image 2 | OpenAI | image | frontier |
+| `glm` | GLM-5.2 | Z.ai | chatbots | open |
+| `minimax` | MiniMax M3 | MiniMax | chatbots | open |
+| `composio` | Composio | Composio | infra | specialist |
+| `langfuse` | Langfuse | Langfuse | infra | open |
+| `elevenlabs-music` | *(already listed — no-op)* | — | — | — |
 
-**Also:** vendored github.com/obra/superpowers into `skills/superpowers/` (de-gitted).
+### 3. Updates to existing entries
+- [x] `sora` — Sora 2 was deprecated 2026-04-26 and shuts down 2026-09-24. Demote
+      `leading` → `specialist`, rewrite blurb/summary/weaknesses, point users at
+      the successor path. Leaving this stale would be the worst kind of error for
+      a directory that claims to be current.
+- [x] `kimi` — Moonshot shipped K3 (open weights, 1M context). Refresh version text.
+
+### 4. Add to `NEW_UPDATES` feed
+Newest-first, `YYYY-MM`, every slug must resolve.
+
+### 5. Verify
+- [x] `node scripts/check-data.js` passes
+- [x] jsdom render harness — load real pages with external scripts, confirm
+      `[data-omni-*]` mounts populate and no runtime errors (per `tasks/lessons.md`)
+- [x] Remove jsdom artifacts (`node_modules`, `package*.json`) before committing
+
+### 6. Ship
+- [x] Commit + push to `claude/ai-tools-collection-8dv3w2`
+- [x] Merge to `main`
+- [ ] Report the live URL
 
 ---
 
-## Follow-up round (denser bg + submit email)
+## Rejected candidates (researched, deliberately not added)
 
-**Denser Nexus background**
-- Raised node density (cap 90→150, divisor 22k→13k, min 28→50) and link distance
-  (150→170) in `app.js`. More dots and connections, still perf-capped.
-
-**Submit form now emails aqeel@epicdynamics.ai (was NOT implemented before)**
-- Previously the form only showed a success message and sent nothing.
-- Added `api/submit.js` Vercel function: server-side validation, length caps,
-  HTML-escaping, honeypot, best-effort rate limit, sends via Resend (key in env only).
-- Rewired `submit.html` to POST JSON to `/api/submit` with success/error states + honeypot.
-- 16 security/validation unit tests + 7 browser-flow checks all pass.
-- Setup documented in `docs/submit-email-setup.md` (needs `RESEND_API_KEY` +
-  verified sender domain in Vercel before mail actually delivers).
+- **ChatGPT Atlas** — OpenAI is retiring it; the standalone browser stops working
+  2026-08-09 and its agentic browsing folds into the ChatGPT desktop app. Adding a
+  product that shut down three days ago would be an own goal.
+- **AWS Q Developer** — new signups closed 2026-05-15, superseded by Kiro. Added
+  Kiro instead.
+- **Snowflake Cortex AI Gateway / TrueFoundry / Obot** — real, but enterprise
+  gateway plumbing rather than something a practitioner picks up. Composio covers
+  this slot with far broader adoption.
+- **MCP gateway long tail** — fast-consolidating market, too early to call winners.
 
 ---
 
-## Design overhaul round
+## Review
 
-**Phase 1 — emoji → SVG icons (done)**
-- Replaced all 12 childish emoji category icons with a hand-built monoline SVG set
-  (`catIcon()` in app.js) matching the existing arrow icons. Home cards use a bordered
-  icon tile that tints to accent on hover. Verified: 12 icons render, no emoji remain.
+**What changed:** `tools.js` only — 12 new tool entries (107 → 119 tools), 2 corrected
+entries, 6 new feed items (10 → 16). No HTML, CSS, or JS markup touched, so there is
+no rendering risk beyond the data layer.
 
-**Phase 2 — Higgsfield imagery (partial; blocked on egress)**
-- Generated 2 on-brand abstract "nexus" textures via Higgsfield nano_banana_2
-  (job ids 62be741f…, 61bbd6e2…). Wired into the 5 home featured cards as a masked art
-  layer **with an ember-gradient fallback** so cards look intentional even before the
-  PNGs are vendored.
-- ⚠️ Could not download the PNGs: env network policy blocks the Higgsfield CDN host
-  `d8j0ntlcm91z4.cloudfront.net`. Needs allowlisting to vendor `assets/featured-nexus-*.png`
-  (no extra credits — images already generated). Higgsfield balance is down to 0 credits.
+**Editorial calls worth flagging:**
+- Omnigent is genuinely *alpha* and its Windows support is degraded. The entry says
+  so in `weaknesses` rather than quietly overselling it — the directory's whole
+  value is that it doesn't do that.
+- Both new image models are tiered `frontier`, which now makes four frontier
+  entries in that category. That reflects reality — GPT Image 2 and Nano Banana Pro
+  genuinely trade the top spot between prompt adherence and editing — but it is
+  worth revisiting if the category starts to look top-heavy.
+- `seedance` is listed at 2.5 (the current shipping version) rather than 2.0, and
+  the entry notes the access story is awkward outside China.
 
-**Phase 3 — polish (done / partial)**
-- Added `favicon.svg` (nexus motif) injected site-wide via app.js.
-- Added Open Graph + Twitter share meta to the homepage. `assets/og.png` still to be
-  vendored (pending egress allowlist or NanoBanana).
+**Verification:** dataset check passes at 119 tools with no broken references, and the
+jsdom harness renders all 18 pages (home, six categories, six tool details, compare,
+stacks, new, submit, about) with populated mounts and a clean console. A second pass
+asserted the new copy is actually on the page, not merely that the mount was non-empty.
