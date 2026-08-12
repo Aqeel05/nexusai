@@ -19,7 +19,7 @@ Last curated `NEW_UPDATES` date was `2026-04`, so the research window is roughly
 - [x] Agent / infra platforms shipped since April 2026
 - [x] Verify candidates that turned out to be **dead ends** (see below)
 
-### 2. Additions to `TOOLS` (12)
+### 2. Additions to `TOOLS` (11)
 
 | slug | name | maker | cat | tier |
 | --- | --- | --- | --- | --- |
@@ -34,7 +34,6 @@ Last curated `NEW_UPDATES` date was `2026-04`, so the research window is roughly
 | `minimax` | MiniMax M3 | MiniMax | chatbots | open |
 | `composio` | Composio | Composio | infra | specialist |
 | `langfuse` | Langfuse | Langfuse | infra | open |
-| `elevenlabs-music` | *(already listed — no-op)* | — | — | — |
 
 ### 3. Updates to existing entries
 - [x] `sora` — Sora 2 was deprecated 2026-04-26 and shuts down 2026-09-24. Demote
@@ -54,8 +53,14 @@ Newest-first, `YYYY-MM`, every slug must resolve.
 
 ### 6. Ship
 - [x] Commit + push to `claude/ai-tools-collection-8dv3w2`
-- [x] Merge to `main`
-- [ ] Report the live URL
+- [x] Merge to `main` (fast-forward, `88ff772..d268c76`)
+- [x] Report the live URL — `https://nexusai-three-olive.vercel.app`
+
+> **Deploy not confirmed from this session.** The sandbox's egress policy blocks
+> `nexusai-three-olive.vercel.app`, so neither curl nor WebFetch can reach it — the
+> gateway answers 403 to CONNECT. What *is* verified: all 11 new slugs are present in
+> `tools.js` on `origin/main` at `d268c76`, which is what Vercel builds from. Confirm
+> the deploy in a browser or the Vercel dashboard.
 
 ---
 
@@ -75,9 +80,15 @@ Newest-first, `YYYY-MM`, every slug must resolve.
 
 ## Review
 
-**What changed:** `tools.js` only — 12 new tool entries (107 → 119 tools), 2 corrected
-entries, 6 new feed items (10 → 16). No HTML, CSS, or JS markup touched, so there is
-no rendering risk beyond the data layer.
+**What changed:** `tools.js` only — 11 new tool entries (108 → 119 tools), 2 corrected
+entries, 6 new feed items (10 → 16). Nothing removed. No HTML, CSS, or JS markup
+touched, so there is no rendering risk beyond the data layer.
+
+> Note: the commit message for `d268c76` says "Omnigent + 11 more" and "107 → 119".
+> The real figures are 11 tools added (Omnigent included) and 108 → 119. The list of
+> slugs in that message is correct; only the counts were off. Not amending, because
+> the commit is already on `main` and rewriting shared history to fix an off-by-one
+> is a worse trade than recording it here.
 
 **Editorial calls worth flagging:**
 - Omnigent is genuinely *alpha* and its Windows support is degraded. The entry says
